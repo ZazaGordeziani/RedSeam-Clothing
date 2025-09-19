@@ -3,10 +3,10 @@ import { LogInLogo } from '@/assets/log-in-logo'
 
 export const Header = () => {
     return (
-        <div className="flex h-20 w-[1920px] items-center justify-between px-[102px]">
+        <div className="flex h-20 w-full items-center justify-between px-[102px]">
             <div className="flex h-6 w-[180px] items-center justify-center gap-1">
                 <HeaderLogo />
-                <span className="w-[152px] font-poppins text-[16px] font-[600] leading-[100%] text-black">
+                <span className="w-[152px] font-poppins text-[16px] font-semibold leading-[100%] text-gray-900">
                     RedSeam Clothing
                 </span>
             </div>

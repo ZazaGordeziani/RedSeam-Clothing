@@ -1,18 +1,18 @@
 {
-  "compilerOptions": {
-    // "noEmitOnError": true,
-    // "strict": true,
-    // "noImplicitAny": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "~/*": ["."]
-    }
-  },
+    "compilerOptions": {
+        // "noEmitOnError": true,
+        // "strict": true,
+        // "noImplicitAny": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"],
+            "~/*": ["."]
+        }
+    },
 
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+    "files": [],
+    "references": [
+        { "path": "./tsconfig.app.json" },
+        { "path": "./tsconfig.node.json" }
+    ]
 }

@@ -2,6 +2,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer components {
+    .input-default {
+        @apply h-[42px] w-[554px] rounded-lg border border-neutral-200 px-3 placeholder:font-poppins placeholder:text-sm placeholder:font-normal placeholder:leading-[100%] placeholder:text-zinc-700;
+    }
+}
+
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
 html {
     display: flex;
@@ -14,3 +24,4 @@ body #root {
     display: flex;
     flex-direction: column;
 }
+/* src/index.css or styles.css */
