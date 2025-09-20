@@ -16,7 +16,7 @@ const Auth = () => {
         location.pathname === '/auth/login' ? 'mt-[260px]' : 'mt-[145px]'
 
     return (
-        <div className="flex w-full">
+        <div className="flex w-screen">
             <div className="w-1/2">
                 <HeroPhoto />
             </div>

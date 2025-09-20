@@ -12,6 +12,7 @@ import {
     type BackendErrorResponse,
     type RegisterFormValues,
 } from '@/pages/auth/register/components/index.types'
+import { InputAsterisk } from '@/pages/auth/components/asterisk'
 
 export const Register = () => {
     const avatarRef = useRef<HTMLInputElement>(null)
@@ -186,7 +187,6 @@ export const Register = () => {
                             )
                         }}
                     />
-                    {/* <label className="lg:text-2xl"></label> */}
                     <Controller
                         name="username"
                         control={control}
@@ -195,22 +195,26 @@ export const Register = () => {
                             fieldState: { error },
                         }) => {
                             return (
-                                <>
+                                <div className="relative">
                                     <input
                                         onBlur={() => {
                                             trigger('username')
                                         }}
                                         onChange={onChange}
                                         value={value}
-                                        className="input-default"
+                                        className="input-default peer"
                                         placeholder="Username"
+                                    />
+                                    <InputAsterisk
+                                        visible={!value}
+                                        className="left-[89px]"
                                     />
                                     {error?.message ? (
                                         <span className="text-red-400">
                                             {error.message}
                                         </span>
                                     ) : null}
-                                </>
+                                </div>
                             )
                         }}
                     />
@@ -224,19 +228,23 @@ export const Register = () => {
                             fieldState: { error },
                         }) => {
                             return (
-                                <>
+                                <div className="relative">
                                     <input
                                         onChange={onChange}
                                         value={value}
-                                        className="input-default"
+                                        className="input-default peer"
                                         placeholder="E-mail"
+                                    />
+                                    <InputAsterisk
+                                        visible={!value}
+                                        className="left-16"
                                     />
                                     {error?.message ? (
                                         <span className="text-red-400">
                                             {error.message}
                                         </span>
                                     ) : null}
-                                </>
+                                </div>
                             )
                         }}
                     />
@@ -262,6 +270,10 @@ export const Register = () => {
                                                     ? 'text'
                                                     : 'password'
                                             }
+                                        />
+                                        <InputAsterisk
+                                            visible={!value}
+                                            className="left-[85px]"
                                         />{' '}
                                         <button
                                             type="button"
@@ -307,6 +319,10 @@ export const Register = () => {
                                                     ? 'text'
                                                     : 'password'
                                             }
+                                        />
+                                        <InputAsterisk
+                                            visible={!value}
+                                            className="left-[145px]"
                                         />{' '}
                                         <button
                                             type="button"

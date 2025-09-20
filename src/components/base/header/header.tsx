@@ -26,7 +26,7 @@ export const Header = () => {
     }
 
     return (
-        <div className="flex w-full max-w-[1920px] items-center justify-between px-[100px] py-[25px]">
+        <div className="flex w-full items-center justify-between px-[100px] py-[25px]">
             <div className="flex h-6 w-[180px] items-center justify-center gap-1">
                 <HeaderLogo />
                 <span className="w-[152px] font-poppins text-[16px] font-semibold leading-[100%] text-gray-900">

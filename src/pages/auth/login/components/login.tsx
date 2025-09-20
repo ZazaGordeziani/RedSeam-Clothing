@@ -12,6 +12,7 @@ import type { LoginResponse } from '@/api/auth/index.types'
 import { httpClient } from '@/api'
 import { userAtom } from '@/store/auth'
 import { useAtom } from 'jotai'
+import { InputAsterisk } from '@/pages/auth/components/asterisk'
 
 export const Login = () => {
     const [showPassword, setShowPassword] = useState<boolean>(true)
@@ -94,19 +95,23 @@ export const Login = () => {
                             fieldState: { error },
                         }) => {
                             return (
-                                <>
+                                <div className="relative">
                                     <input
                                         onChange={onChange}
                                         value={value}
                                         className="input-default"
                                         placeholder="E-mail"
                                     />
+                                    <InputAsterisk
+                                        visible={!value}
+                                        className="left-16"
+                                    />
                                     {error?.message ? (
                                         <span className="text-red-400">
                                             (error.message)
                                         </span>
                                     ) : null}
-                                </>
+                                </div>
                             )
                         }}
                     />
@@ -132,6 +137,10 @@ export const Login = () => {
                                                     ? 'text'
                                                     : 'password'
                                             }
+                                        />
+                                        <InputAsterisk
+                                            visible={!value}
+                                            className="left-[85px]"
                                         />{' '}
                                         <button
                                             type="button"
