@@ -4,8 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import { FaEyeSlash } from 'react-icons/fa'
 import { Eye } from '@/pages/auth/assets/eye'
+import { SlashEye } from '@/assets/slash-eye'
+import { useRegister } from '@/react-query/mutation'
+import type { RegisterFormValues } from '@/pages/auth/register/components/index.types'
 
 export const Register = () => {
     const avatarRef = useRef<HTMLInputElement>(null)
@@ -13,37 +15,60 @@ export const Register = () => {
     const [showConfirmPassword, setShowConfirmPassword] =
         useState<boolean>(true)
 
-    type SignUpFormValues = {
-        avatar?: File | null
-        username: string
-        email: string
-        password: string
-        confirm_password: string
-    }
-    const SignUpFormDefaultValues = {
-        avatar: null,
-        email: '',
-        password: '',
-        confirm_password: '',
+    type BackendErrorResponse = {
+        message: string
+        errors?: Record<string, string[]>
     }
 
-    const {
-        control,
-        trigger,
-        setError,
-        clearErrors,
-        // handleSubmit
-    } = useForm<SignUpFormValues>({
-        resolver: zodResolver(SignUpFormSchema),
-        defaultValues: SignUpFormDefaultValues,
-        mode: 'onBlur',
+    const RegisterFormDefaultValues = {
+        avatar: null,
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    }
+
+    const { control, trigger, setError, clearErrors, handleSubmit } =
+        useForm<RegisterFormValues>({
+            resolver: zodResolver(SignUpFormSchema),
+            defaultValues: RegisterFormDefaultValues,
+            mode: 'onBlur',
+        })
+
+    const { mutate: handleRegister } = useRegister({
+        onError: (error) => {
+            const data = error.response?.data as
+                | BackendErrorResponse
+                | undefined
+            if (data?.errors) {
+                const backendErrors = data.errors
+
+                Object.entries(backendErrors).forEach(([field, messages]) => {
+                    setError(field as keyof RegisterFormValues, {
+                        type: 'server',
+                        message: messages[0],
+                    })
+                })
+            }
+        },
     })
+
+    const onSubmit = (registerPayload: RegisterFormValues) => {
+        console.log(import.meta.env.VITE_BASE_URL)
+
+        console.log(registerPayload)
+        handleRegister(registerPayload)
+    }
+
     return (
         <div className="flex flex-col gap-[46px]">
             <h1 className="h-[63px] font-poppins text-[42px] font-semibold leading-[100%] text-gray-900">
                 Registration
             </h1>
-            <form className="h-[518px] w-[554px]">
+            <form
+                className="max-h-[518px] max-w-[554px]"
+                onSubmit={handleSubmit(onSubmit)}
+            >
                 <div className="flex flex-col gap-6">
                     <Controller
                         name="avatar"
@@ -136,7 +161,7 @@ export const Register = () => {
                                             <UploadPhotoIcon />
                                         )}
 
-                                        <p className="whitespace-nowrap font-poppins text-sm font-normal leading-[100%]">
+                                        <div className="whitespace-nowrap font-poppins text-sm font-normal leading-[100%]">
                                             {previewUrl ? (
                                                 <div className="flex gap-3">
                                                     <span
@@ -159,7 +184,7 @@ export const Register = () => {
                                             ) : (
                                                 'Upload image'
                                             )}
-                                        </p>
+                                        </div>
                                     </div>
                                     {error && (
                                         <span className="text-red-400">
@@ -217,7 +242,7 @@ export const Register = () => {
                                     />
                                     {error?.message ? (
                                         <span className="text-red-400">
-                                            (error.message)
+                                            {error.message}
                                         </span>
                                     ) : null}
                                 </>
@@ -257,13 +282,13 @@ export const Register = () => {
                                             {showPassword ? (
                                                 <Eye />
                                             ) : (
-                                                <FaEyeSlash />
+                                                <SlashEye />
                                             )}
                                         </button>
                                     </div>
                                     {error?.message ? (
                                         <span className="text-red-400">
-                                            (error.message)
+                                            {error.message}
                                         </span>
                                     ) : null}
                                 </>
@@ -272,7 +297,7 @@ export const Register = () => {
                     />
 
                     <Controller
-                        name="confirm_password"
+                        name="confirmPassword"
                         control={control}
                         render={({
                             field: { onChange, value },
@@ -304,13 +329,13 @@ export const Register = () => {
                                             {showConfirmPassword ? (
                                                 <Eye />
                                             ) : (
-                                                <FaEyeSlash />
+                                                <SlashEye />
                                             )}
                                         </button>
                                     </div>
                                     {error?.message ? (
                                         <span className="text-red-400">
-                                            (error.message)
+                                            {error.message}
                                         </span>
                                     ) : null}
                                 </>
@@ -319,7 +344,7 @@ export const Register = () => {
                     />
                     <div className="mt-5 flex flex-col justify-center gap-6">
                         <button
-                            // onClick={handleSubmit(onSubmit)}
+                            type="submit"
                             className="flex h-[41px] items-center justify-center rounded-[10px] bg-orange-600 font-poppins text-[14px] font-normal leading-[100%] text-white"
                             // disabled={isPending}
                         >
@@ -334,7 +359,7 @@ export const Register = () => {
                                 Already member?
                             </p>
 
-                            <Link to={`/login`}>
+                            <Link to={`/auth/login`}>
                                 <button>
                                     <span className="font-poppins text-sm font-medium leading-[100%] tracking-[0px] text-orange-600">
                                         Log In

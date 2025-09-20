@@ -4,11 +4,8 @@ import { Outlet } from 'react-router-dom'
 
 const DefaultLayout = () => {
     return (
-        <div className="flex min-h-screen justify-center">
-            <div
-                className="h-[1080px] w-[1920px]"
-                // style={{ height: '1080px', maxWidth: '1920px' }}
-            >
+        <div className="flex min-h-screen flex-col bg-white">
+            <div className="">
                 <Header />
                 <PageContainer>
                     <Outlet />

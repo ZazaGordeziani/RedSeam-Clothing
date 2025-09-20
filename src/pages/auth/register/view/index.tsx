@@ -1,5 +1,6 @@
 import { Register } from '@/pages/auth/register/components/register'
 
-export const RegisterView = () => {
+const RegisterView = () => {
     return <Register />
 }
+export default RegisterView

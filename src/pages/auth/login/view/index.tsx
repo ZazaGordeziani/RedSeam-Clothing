@@ -1,5 +1,6 @@
 import { Login } from '@/pages/auth/login/components/login'
 
-export const LogInView = () => {
+const LogInView = () => {
     return <Login />
 }
+export default LogInView

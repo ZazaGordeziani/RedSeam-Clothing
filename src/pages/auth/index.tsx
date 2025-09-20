@@ -1,9 +1,9 @@
 import { HeroPhoto } from '@/assets/hero-photo'
-import { LogInView } from '@/pages/auth/login/view'
-import { RegisterView } from '@/pages/auth/register/view'
+import LogInView from '@/pages/auth/login/view'
+import RegisterView from '@/pages/auth/register/view'
 import { useLocation } from 'react-router-dom'
 
-export const Auth = () => {
+const Auth = () => {
     const location = useLocation()
 
     const renderForm = () => {
@@ -11,12 +11,21 @@ export const Auth = () => {
         if (location.pathname === '/auth/login') return <LogInView />
         return null
     }
+
+    const marginTopClassForForm =
+        location.pathname === '/auth/login' ? 'mt-[260px]' : 'mt-[160px]'
+
     return (
-        <div className="flex justify-between gap-[172px]">
-            <div className="flex-1">
+        <div className="flex w-full">
+            <div className="w-1/2">
                 <HeroPhoto />
             </div>
-            <div className="mt-[160px] flex flex-1">{renderForm()}</div>
+            <div
+                className={`flex w-1/2 justify-center ${marginTopClassForForm}`}
+            >
+                {renderForm()}
+            </div>
         </div>
     )
 }
+export default Auth

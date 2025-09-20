@@ -12,18 +12,17 @@ export const SignUpFormSchema = z
         username: z.string().min(3, {
             message: 'username should consist at least 3 characters',
         }),
-        email: z.string().email({ message: 'invalid_email' }),
-        password: z
-            .string()
-            .min(6, {
-                message: 'invalid_password',
-            })
-            .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).+$/, {
-                message: 'invalid_password_type',
-            }),
-        confirm_password: z.string(),
+
+        email: z.string().email({ message: 'invalid email' }),
+        password: z.string().min(6, {
+            message: 'invalid password',
+        }),
+        // .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).+$/, {
+        //     message: 'invalid_password_type',
+        // }),
+        confirmPassword: z.string(),
     })
-    .refine((data) => data.password === data.confirm_password, {
+    .refine((data) => data.password === data.confirmPassword, {
         message: 'Passwords do not match',
-        path: ['confirm_password'],
+        path: ['confirmPassword'],
     })
