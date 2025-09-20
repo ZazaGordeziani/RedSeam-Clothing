@@ -24,6 +24,8 @@ export const ProductsList = () => {
             console.log(res.data)
             return res.data
         },
+        staleTime: 2 * 60 * 1000,
+        refetchOnWindowFocus: false,
     })
 
     if (isLoading) return <div>Loading products...</div>

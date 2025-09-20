@@ -172,7 +172,7 @@ export const Login = () => {
                             className="flex h-[41px] items-center justify-center rounded-[10px] bg-orange-600 font-poppins text-[14px] font-normal leading-[100%] text-white"
                             // disabled={isPending}
                         >
-                            Register
+                            Log in
                             {/* {isPending ? <Spinner /> : t('sign-up-submit')} */}
                         </button>
                         {/* {emailSentMessage && ( */}

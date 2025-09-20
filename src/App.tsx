@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import { useAtom } from 'jotai'
 import { lazy, Suspense, useEffect } from 'react'
 import { userAtom } from '@/store/auth'
+import { BounceLoader } from 'react-spinners'
 
 function App() {
     const [, setUser] = useAtom(userAtom)
@@ -23,24 +24,23 @@ function App() {
     const LazyNotFoundPage = lazy(() => import('@/pages/404'))
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+            fallback={
+                <div className="flex min-h-screen w-full items-center justify-center">
+                    <BounceLoader color="#FF7F00" />
+                </div>
+            }
+        >
             <Routes>
-                {/* Main layout */}
                 <Route path="/" element={<LazyDefaultLayout />}>
-                    {/* Root "/" shows products page */}
                     <Route index element={<LazyProductsPage />} />
 
-                    {/* "/products" also shows products page */}
                     <Route path="products" element={<LazyProductsPage />} />
 
-                    {/* Auth routes */}
                     <Route path="auth" element={<LazyAuthPage />}>
                         <Route path="login" element={<LazyLoginPage />} />
                         <Route path="register" element={<LazyRegisterPage />} />
                     </Route>
-
-                    {/* Optional: redirect unknown routes to "/" */}
-                    {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
                 </Route>
                 <Route path="*" element={<LazyNotFoundPage />} />
             </Routes>
