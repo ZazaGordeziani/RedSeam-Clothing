@@ -13,7 +13,7 @@ const Auth = () => {
     }
 
     const marginTopClassForForm =
-        location.pathname === '/auth/login' ? 'mt-[260px]' : 'mt-[160px]'
+        location.pathname === '/auth/login' ? 'mt-[260px]' : 'mt-[145px]'
 
     return (
         <div className="flex w-full">

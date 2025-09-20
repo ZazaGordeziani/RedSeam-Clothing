@@ -7,26 +7,17 @@ import { Link } from 'react-router-dom'
 import { Eye } from '@/pages/auth/assets/eye'
 import { SlashEye } from '@/assets/slash-eye'
 import { useRegister } from '@/react-query/mutation'
-import type { RegisterFormValues } from '@/pages/auth/register/components/index.types'
+import {
+    RegisterFormDefaultValues,
+    type BackendErrorResponse,
+    type RegisterFormValues,
+} from '@/pages/auth/register/components/index.types'
 
 export const Register = () => {
     const avatarRef = useRef<HTMLInputElement>(null)
     const [showPassword, setShowPassword] = useState<boolean>(true)
     const [showConfirmPassword, setShowConfirmPassword] =
         useState<boolean>(true)
-
-    type BackendErrorResponse = {
-        message: string
-        errors?: Record<string, string[]>
-    }
-
-    const RegisterFormDefaultValues = {
-        avatar: null,
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    }
 
     const { control, trigger, setError, clearErrors, handleSubmit } =
         useForm<RegisterFormValues>({

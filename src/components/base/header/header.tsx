@@ -22,11 +22,11 @@ export const Header = () => {
         localStorage.removeItem('avatar')
         delete httpClient?.defaults?.headers?.common['Authorization']
         setUser(null)
-        navigate('/auth/login')
+        navigate('/')
     }
 
     return (
-        <div className="flex w-screen items-center justify-between px-24 py-7">
+        <div className="flex w-full max-w-[1920px] items-center justify-between px-[100px] py-[25px]">
             <div className="flex h-6 w-[180px] items-center justify-center gap-1">
                 <HeaderLogo />
                 <span className="w-[152px] font-poppins text-[16px] font-semibold leading-[100%] text-gray-900">
@@ -52,7 +52,7 @@ export const Header = () => {
 
                     <button
                         onClick={handleLogout}
-                        className="tfont-poppins text-xs font-medium text-orange-600"
+                        className="mr-1 font-poppins text-xs font-medium text-orange-600"
                     >
                         Logout
                     </button>
