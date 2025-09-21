@@ -41,10 +41,9 @@ export const ProductsList = ({ priceFrom, priceTo }: ProductsListProps) => {
 
     const { data, isLoading, isError, error } = useQuery(queryOptions)
     if (isError) return <div>Error: {error?.message}</div>
-    const placeholderItems = Array.from({ length: 8 }) // number of placeholders
-
+    const placeholderItems = Array.from({ length: 8 })
     return (
-        <div className="mx-auto min-h-[614px] w-full max-w-[1920px] px-24 py-8">
+        <div className="min-h-[614px] w-full px-24 py-8">
             {isLoading && (
                 <div className="grid grid-cols-4 gap-3 gap-y-6">
                     {placeholderItems.map((_, index) => (

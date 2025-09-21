@@ -1,44 +1,31 @@
 import { useState, useRef, useEffect } from 'react'
 import { FilterIcon } from '@/pages/products/assets/filter-icon'
 import { InputAsterisk } from '@/components/ui/asterisk'
+import { useSearchParams } from 'react-router-dom'
 
 export interface FilterDropdownProps {
     onApply?: (from?: number, to?: number) => void
+    priceFrom?: number | null
+    priceTo?: number | null
 }
 
-export const FilterDropdown = ({ onApply }: FilterDropdownProps) => {
+export const FilterDropdown = ({
+    onApply,
+    priceFrom,
+    priceTo,
+}: FilterDropdownProps) => {
     const [open, setOpen] = useState(false)
-    const [fromValue, setFromValue] = useState('')
-    const [toValue, setToValue] = useState('')
-    const [error, setError] = useState('')
     const containerRef = useRef<HTMLDivElement>(null)
+    const [searchParams] = useSearchParams()
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        setError('')
+    const initialFrom = priceFrom?.toString() || searchParams.get('from') || ''
+    const initialTo = priceTo?.toString() || searchParams.get('to') || ''
+    const [fromValue, setFromValue] = useState(initialFrom)
+    const [toValue, setToValue] = useState(initialTo)
 
-        const fromNumber = Number(fromValue)
-        const toNumber = Number(toValue)
+    const [error, setError] = useState('')
 
-        //check if number is negative and display error
-        if ((fromValue && fromNumber < 0) || (toValue && toNumber < 0)) {
-            setError('Negative numbers are not allowed')
-            return
-        }
-
-        // check if starting price is higher than end price and display error
-        if (fromValue && toValue && fromNumber > toNumber) {
-            setError('From value should be less than To value')
-            return
-        }
-
-        if (onApply)
-            onApply(
-                fromValue ? fromNumber : undefined,
-                toValue ? toNumber : undefined,
-            )
-    }
-
+    // 🔹 Close dropdown if clicked outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
@@ -50,9 +37,33 @@ export const FilterDropdown = ({ onApply }: FilterDropdownProps) => {
         }
 
         document.addEventListener('mousedown', handleClickOutside)
-        return () =>
+        return () => {
             document.removeEventListener('mousedown', handleClickOutside)
+        }
     }, [])
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        setError('')
+
+        const fromNumber = Number(fromValue)
+        const toNumber = Number(toValue)
+
+        if ((fromValue && fromNumber < 0) || (toValue && toNumber < 0)) {
+            setError('Negative numbers are not allowed')
+            return
+        }
+        if (fromValue && toValue && fromNumber > toNumber) {
+            setError('From value should be less than To value')
+            return
+        }
+
+        if (onApply)
+            onApply(
+                fromValue ? fromNumber : undefined,
+                toValue ? toNumber : undefined,
+            )
+    }
 
     return (
         <div ref={containerRef} className="relative inline-block text-left">
@@ -107,12 +118,10 @@ export const FilterDropdown = ({ onApply }: FilterDropdownProps) => {
                             </div>
                         </div>
 
-                        {/* Error message */}
                         {error && (
                             <p className="text-sm text-red-600">{error}</p>
                         )}
 
-                        {/* Apply button */}
                         <button
                             type="submit"
                             className="ml-auto w-[124px] rounded-[10px] bg-orange-600 px-[20px] py-[10px] font-poppins text-sm font-normal text-white"
