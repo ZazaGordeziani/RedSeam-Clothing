@@ -12,13 +12,12 @@ import type { LoginResponse } from '@/api/auth/index.types'
 import { httpClient } from '@/api'
 import { userAtom } from '@/store/auth'
 import { useAtom } from 'jotai'
-import { InputAsterisk } from '@/pages/auth/components/asterisk'
+import { InputAsterisk } from '@/components/ui/asterisk'
 
 export const Login = () => {
     const [showPassword, setShowPassword] = useState<boolean>(true)
     const [, setUser] = useAtom(userAtom)
 
-    // const [, setAvatar] = useState<string | null>(null)
     const navigate = useNavigate()
 
     const LoginFormDefaultValues = {
@@ -104,7 +103,7 @@ export const Login = () => {
                                     />
                                     <InputAsterisk
                                         visible={!value}
-                                        className="left-16"
+                                        className="left-16 top-2"
                                     />
                                     {error?.message ? (
                                         <span className="text-red-400">
@@ -140,7 +139,7 @@ export const Login = () => {
                                         />
                                         <InputAsterisk
                                             visible={!value}
-                                            className="left-[85px]"
+                                            className="left-[85px] top-2"
                                         />{' '}
                                         <button
                                             type="button"

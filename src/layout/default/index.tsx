@@ -4,8 +4,9 @@ import { Outlet } from 'react-router-dom'
 
 const DefaultLayout = () => {
     return (
-        <div className="flex min-h-screen flex-col items-center bg-white">
-            <div className="">
+        <div className="min-h-screen bg-white">
+            {/* Outer container centers content and sets max width */}
+            <div className="mx-auto w-full max-w-[1920px]">
                 <Header />
                 <PageContainer>
                     <Outlet />

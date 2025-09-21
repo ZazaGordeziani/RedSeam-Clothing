@@ -3,7 +3,7 @@ import { FilterDropdown, type FilterDropdownProps } from './filter'
 
 export const ProductsToolbar = ({ onApply }: FilterDropdownProps) => {
     return (
-        <div className="flex w-[1920px] items-center justify-between pl-[100px] pr-24 pt-12 font-poppins">
+        <div className="mx-auto flex w-full max-w-[1920px] items-center justify-between pl-[100px] pr-24 pt-12 font-poppins">
             <h1 className="text-[42px] font-semibold text-gray-900">
                 Products
             </h1>

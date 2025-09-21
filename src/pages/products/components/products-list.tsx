@@ -44,7 +44,7 @@ export const ProductsList = ({ priceFrom, priceTo }: ProductsListProps) => {
     const placeholderItems = Array.from({ length: 8 }) // number of placeholders
 
     return (
-        <div className="min-h-[614px] w-[1920px] px-24 py-8">
+        <div className="mx-auto min-h-[614px] w-full max-w-[1920px] px-24 py-8">
             {isLoading && (
                 <div className="grid grid-cols-4 gap-3 gap-y-6">
                     {placeholderItems.map((_, index) => (

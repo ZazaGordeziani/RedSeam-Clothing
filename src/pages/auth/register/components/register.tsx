@@ -12,7 +12,7 @@ import {
     type BackendErrorResponse,
     type RegisterFormValues,
 } from '@/pages/auth/register/components/index.types'
-import { InputAsterisk } from '@/pages/auth/components/asterisk'
+import { InputAsterisk } from '@/components/ui/asterisk'
 
 export const Register = () => {
     const avatarRef = useRef<HTMLInputElement>(null)
@@ -207,7 +207,7 @@ export const Register = () => {
                                     />
                                     <InputAsterisk
                                         visible={!value}
-                                        className="left-[89px]"
+                                        className="left-[89px] top-2"
                                     />
                                     {error?.message ? (
                                         <span className="text-red-400">
@@ -237,7 +237,7 @@ export const Register = () => {
                                     />
                                     <InputAsterisk
                                         visible={!value}
-                                        className="left-16"
+                                        className="left-16 top-2"
                                     />
                                     {error?.message ? (
                                         <span className="text-red-400">
@@ -273,7 +273,7 @@ export const Register = () => {
                                         />
                                         <InputAsterisk
                                             visible={!value}
-                                            className="left-[85px]"
+                                            className="left-[85px] top-2"
                                         />{' '}
                                         <button
                                             type="button"
@@ -322,7 +322,7 @@ export const Register = () => {
                                         />
                                         <InputAsterisk
                                             visible={!value}
-                                            className="left-[145px]"
+                                            className="left-[145px] top-2"
                                         />{' '}
                                         <button
                                             type="button"

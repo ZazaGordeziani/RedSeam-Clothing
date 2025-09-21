@@ -10,7 +10,7 @@ export const InputAsterisk = ({
     if (!visible) return null
     return (
         <span
-            className={`pointer-events-none absolute top-2 font-poppins text-sm font-normal text-orange-600 ${className}`}
+            className={`pointer-events-none absolute font-poppins text-sm font-normal text-orange-600 ${className}`}
         >
             *
         </span>
