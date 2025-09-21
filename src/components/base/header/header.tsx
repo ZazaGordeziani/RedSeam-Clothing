@@ -28,12 +28,12 @@ export const Header = () => {
     return (
         <div className="flex items-center justify-between px-[100px] py-[25px]">
             <div className="flex h-6 w-[180px] items-center justify-center gap-1">
-                <HeaderLogo />
                 <Link
                     to="/"
-                    className="w-[152px] font-poppins text-[16px] font-semibold leading-[100%] text-gray-900"
+                    className="flex items-center font-poppins text-[16px] font-semibold leading-[100%] text-gray-900"
                 >
-                    RedSeam Clothing
+                    <HeaderLogo />
+                    <p>RedSeam Clothing</p>
                 </Link>
             </div>
             {user ? (

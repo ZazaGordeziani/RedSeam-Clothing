@@ -13,24 +13,30 @@ interface ProductResponse {
     data: Product[]
 }
 
-interface ProductsListProps {
+export interface ProductsListProps {
     priceFrom?: number | null
     priceTo?: number | null
+    sort?: string | null
 }
 
-export const ProductsList = ({ priceFrom, priceTo }: ProductsListProps) => {
+export const ProductsList = ({
+    priceFrom,
+    priceTo,
+    sort,
+}: ProductsListProps) => {
     const queryOptions: UseQueryOptions<
         ProductResponse,
         Error,
         ProductResponse,
         readonly unknown[]
     > = {
-        queryKey: ['products', priceFrom ?? 0, priceTo ?? 1000000],
+        queryKey: ['products', priceFrom ?? 0, priceTo ?? 1000000, sort ?? ''],
         queryFn: async () => {
             const res = await httpClient.get<ProductResponse>('/products', {
                 params: {
                     'filter[price_from]': priceFrom ?? 0,
                     'filter[price_to]': priceTo ?? 1000000,
+                    ...(sort ? { sort } : {}),
                 },
             })
             return res.data
@@ -40,8 +46,11 @@ export const ProductsList = ({ priceFrom, priceTo }: ProductsListProps) => {
     }
 
     const { data, isLoading, isError, error } = useQuery(queryOptions)
+
     if (isError) return <div>Error: {error?.message}</div>
+
     const placeholderItems = Array.from({ length: 8 })
+
     return (
         <div className="min-h-[614px] w-full px-24 py-8">
             {isLoading && (
