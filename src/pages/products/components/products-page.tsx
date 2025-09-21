@@ -9,8 +9,14 @@ export const Products = () => {
     const [priceFrom, setPriceFrom] = useState<number | null>(null)
     const [priceTo, setPriceTo] = useState<number | null>(null)
     const [sort, setSort] = useState<string | null>(null)
+    const SORT_OPTIONS = ['created_at', 'price', '-price']
 
-    // Load filters & sort from URL on mount / update
+    const sortParam = searchParams.get('sort')
+
+    const validSort = SORT_OPTIONS.includes(sortParam || '')
+        ? sortParam
+        : undefined
+
     useEffect(() => {
         const fromParam = searchParams.get('filter[price_from]')
         const toParam = searchParams.get('filter[price_to]')
@@ -21,7 +27,6 @@ export const Products = () => {
         setSort(sortParam)
     }, [searchParams])
 
-    // Apply filter values from FilterDropdown
     const handleApplyFilter = (from?: number, to?: number) => {
         setPriceFrom(from ?? null)
         setPriceTo(to ?? null)
@@ -35,7 +40,6 @@ export const Products = () => {
         setSearchParams(params)
     }
 
-    // Apply sort value from SortDropdown
     const handleApplySort = (sortValue: string) => {
         setSort(sortValue)
 
@@ -62,7 +66,7 @@ export const Products = () => {
             <ProductsList
                 priceFrom={priceFrom}
                 priceTo={priceTo}
-                sort={sort} // pass sort so ProductsList can refetch
+                sort={validSort}
             />
         </div>
     )

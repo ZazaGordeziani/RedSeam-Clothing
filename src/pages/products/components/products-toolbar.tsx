@@ -1,14 +1,7 @@
 import { SortArrow } from '@/pages/products/assets/sort-arrow'
 import { FilterDropdown } from './filter'
 import { SortDropdown } from '@/pages/products/components/sort'
-
-export interface ProductsToolbarProps {
-    priceFrom?: number | null
-    priceTo?: number | null
-    sort?: string | null
-    onApplyFilter?: (from?: number, to?: number) => void
-    onApplySort?: (sortValue: string) => void
-}
+import type { ProductsToolbarProps } from '@/pages/products/components/utils'
 
 export const ProductsToolbar = ({
     priceFrom,
@@ -26,14 +19,12 @@ export const ProductsToolbar = ({
                 <p className="text-xs font-normal leading-[100%]">{`showing ${1}-${10} of ${100} results`}</p>
                 <span className="text-neutral-200"> | </span>
 
-                {/* Filter dropdown */}
                 <FilterDropdown
                     priceFrom={priceFrom}
                     priceTo={priceTo}
                     onApply={onApplyFilter}
                 />
 
-                {/* Sort dropdown with arrow */}
                 <div className="relative flex items-center gap-1">
                     <SortDropdown onSelect={onApplySort} />
                     <SortArrow />

@@ -1,13 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { FilterIcon } from '@/pages/products/assets/filter-icon'
-import { InputAsterisk } from '@/components/ui/asterisk'
 import { useSearchParams } from 'react-router-dom'
-
-export interface FilterDropdownProps {
-    onApply?: (from?: number, to?: number) => void
-    priceFrom?: number | null
-    priceTo?: number | null
-}
+import type { FilterDropdownProps } from '@/pages/products/components/utils'
 
 export const FilterDropdown = ({
     onApply,
@@ -18,14 +12,21 @@ export const FilterDropdown = ({
     const containerRef = useRef<HTMLDivElement>(null)
     const [searchParams] = useSearchParams()
 
-    const initialFrom = priceFrom?.toString() || searchParams.get('from') || ''
-    const initialTo = priceTo?.toString() || searchParams.get('to') || ''
+    const initialFrom =
+        priceFrom?.toString() || searchParams.get('filter[price_from]') || ''
+
+    const initialTo =
+        priceTo?.toString() || searchParams.get('filter[price_to]') || ''
     const [fromValue, setFromValue] = useState(initialFrom)
     const [toValue, setToValue] = useState(initialTo)
 
     const [error, setError] = useState('')
 
-    // 🔹 Close dropdown if clicked outside
+    useEffect(() => {
+        setFromValue(priceFrom?.toString() ?? '')
+        setToValue(priceTo?.toString() ?? '')
+    }, [priceFrom, priceTo])
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
@@ -98,10 +99,10 @@ export const FilterDropdown = ({
                                         setFromValue(e.target.value)
                                     }
                                 />
-                                <InputAsterisk
+                                {/* <InputAsterisk
                                     visible={!fromValue}
                                     className="left-[48px] top-1"
-                                />
+                                /> */}
                             </div>
                             <div className="relative">
                                 <input
@@ -111,10 +112,10 @@ export const FilterDropdown = ({
                                     value={toValue}
                                     onChange={(e) => setToValue(e.target.value)}
                                 />
-                                <InputAsterisk
+                                {/* <InputAsterisk
                                     visible={!toValue}
                                     className="left-[30px] top-1"
-                                />
+                                /> */}
                             </div>
                         </div>
 
