@@ -12,6 +12,12 @@ export const Products = () => {
     const [sort, setSort] = useState<string | null>(null)
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [totalPages, setTotalPages] = useState<number>(1)
+    const [resultsRange, setResultsRange] = useState({
+        start: 0,
+        end: 0,
+        total: 0,
+    })
+
     const SORT_OPTIONS = ['created_at', 'price', '-price']
 
     const sortParam = searchParams.get('sort')
@@ -80,6 +86,7 @@ export const Products = () => {
                 priceFrom={priceFrom}
                 priceTo={priceTo}
                 sort={sort}
+                resultsRange={resultsRange}
             />
 
             <ProductsList
@@ -88,6 +95,9 @@ export const Products = () => {
                 sort={validSort}
                 currentPage={currentPage}
                 onTotalPagesChange={setTotalPages}
+                onResultsRangeChange={(start, end, total) =>
+                    setResultsRange({ start, end, total })
+                }
             />
             <Pagination
                 currentPage={currentPage}

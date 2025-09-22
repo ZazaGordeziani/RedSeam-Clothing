@@ -4,7 +4,7 @@ import type {
     ProductsListProps,
 } from '@/pages/products/components/utils'
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export const ProductsList = ({
     priceFrom,
@@ -12,10 +12,14 @@ export const ProductsList = ({
     sort,
     currentPage,
     onTotalPagesChange,
+    onResultsRangeChange,
 }: ProductsListProps & {
     currentPage: number
     onTotalPagesChange?: (total: number) => void
+    onResultsRangeChange?: (start: number, end: number, total: number) => void
 }) => {
+    const totalPagesRef = useRef<number>(0)
+    const resultsRef = useRef({ start: 0, end: 0, total: 0 })
     const queryOptions: UseQueryOptions<
         ProductResponse,
         Error,
@@ -54,10 +58,32 @@ export const ProductsList = ({
     const { data, isLoading, isError, error } = useQuery(queryOptions)
 
     useEffect(() => {
-        if (data?.meta?.last_page && onTotalPagesChange) {
+        if (!data?.meta) return
+
+        if (
+            onTotalPagesChange &&
+            data.meta.last_page !== totalPagesRef.current
+        ) {
             onTotalPagesChange(data.meta.last_page)
+            totalPagesRef.current = data.meta.last_page
         }
-    }, [data?.meta?.last_page, onTotalPagesChange])
+
+        if (onResultsRangeChange) {
+            const perPage = data.meta.per_page ?? 10
+            const total = data.meta.total ?? 0
+            const start = (currentPage - 1) * perPage + 1
+            const end = Math.min(currentPage * perPage, total)
+
+            if (
+                start !== resultsRef.current.start ||
+                end !== resultsRef.current.end ||
+                total !== resultsRef.current.total
+            ) {
+                onResultsRangeChange(start, end, total)
+                resultsRef.current = { start, end, total }
+            }
+        }
+    }, [data, currentPage, onTotalPagesChange, onResultsRangeChange])
 
     if (isError) return <div>Error: {error?.message}</div>
 

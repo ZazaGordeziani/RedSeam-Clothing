@@ -9,6 +9,7 @@ export interface ProductsToolbarProps {
     sort?: string | null
     onApplyFilter?: (from?: number, to?: number) => void
     onApplySort?: (sortValue: string) => void
+    resultsRange?: { start: number; end: number; total: number }
 }
 
 export interface Product {
@@ -42,4 +43,5 @@ export interface ProductsListProps {
     priceTo?: number | null
     sort?: string | null
     onTotalPagesChange?: (totalPages: number) => void
+    onResultsRangeChange?: (start: number, end: number, total: number) => void
 }

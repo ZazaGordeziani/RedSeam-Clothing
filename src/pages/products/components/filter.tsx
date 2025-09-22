@@ -46,6 +46,7 @@ export const FilterDropdown = ({
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setError('')
+        setOpen(false)
 
         const fromNumber = Number(fromValue)
         const toNumber = Number(toValue)
