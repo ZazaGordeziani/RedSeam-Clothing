@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ProductsList } from '@/pages/products/components/products-list'
 import { ProductsToolbar } from '@/pages/products/components/products-toolbar'
+import { Pagination } from '@/pages/products/components/pagination'
 
 export const Products = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -9,6 +10,8 @@ export const Products = () => {
     const [priceFrom, setPriceFrom] = useState<number | null>(null)
     const [priceTo, setPriceTo] = useState<number | null>(null)
     const [sort, setSort] = useState<string | null>(null)
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [totalPages, setTotalPages] = useState<number>(1)
     const SORT_OPTIONS = ['created_at', 'price', '-price']
 
     const sortParam = searchParams.get('sort')
@@ -21,10 +24,12 @@ export const Products = () => {
         const fromParam = searchParams.get('filter[price_from]')
         const toParam = searchParams.get('filter[price_to]')
         const sortParam = searchParams.get('sort')
+        const pageParam = searchParams.get('page') // NEW: get page from URL
 
         setPriceFrom(fromParam ? Number(fromParam) : null)
         setPriceTo(toParam ? Number(toParam) : null)
         setSort(sortParam)
+        setCurrentPage(pageParam ? Number(pageParam) : 1)
     }, [searchParams])
 
     const handleApplyFilter = (from?: number, to?: number) => {
@@ -36,7 +41,7 @@ export const Products = () => {
         if (from !== undefined) params['filter[price_from]'] = from.toString()
         if (to !== undefined) params['filter[price_to]'] = to.toString()
         if (sort) params.sort = sort
-
+        params.page = '1'
         setSearchParams(params)
     }
 
@@ -49,9 +54,23 @@ export const Products = () => {
             params['filter[price_from]'] = priceFrom.toString()
         if (priceTo !== null) params['filter[price_to]'] = priceTo.toString()
         if (sortValue) params.sort = sortValue
+        params.page = '1'
 
         setSearchParams(params)
     }
+
+    const handlePageChange = (page: number) => {
+        const params: Record<string, string> = {}
+
+        if (priceFrom !== null)
+            params['filter[price_from]'] = priceFrom.toString()
+        if (priceTo !== null) params['filter[price_to]'] = priceTo.toString()
+        if (sort) params.sort = sort
+        params.page = page.toString()
+
+        setSearchParams(params)
+    }
+    console.log('totalPages:', totalPages)
 
     return (
         <div className="flex w-full max-w-[1920px] flex-col items-center">
@@ -67,6 +86,13 @@ export const Products = () => {
                 priceFrom={priceFrom}
                 priceTo={priceTo}
                 sort={validSort}
+                currentPage={currentPage}
+                onTotalPagesChange={setTotalPages}
+            />
+            <Pagination
+                currentPage={currentPage} // current page displayed
+                totalPages={totalPages} // total pages received from backend
+                onPageChange={handlePageChange} // called when user clicks a new page
             />
         </div>
     )

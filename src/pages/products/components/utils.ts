@@ -21,10 +21,25 @@ export interface Product {
 
 export interface ProductResponse {
     data: Product[]
+    links: {
+        first: string
+        last: string
+        prev?: string
+        next?: string
+    }
+    meta: {
+        current_page: number
+        last_page: number
+        from: number
+        to: number
+        per_page: number
+        total: number
+        path: string
+    }
 }
-
 export interface ProductsListProps {
     priceFrom?: number | null
     priceTo?: number | null
     sort?: string | null
+    onTotalPagesChange?: (totalPages: number) => void // to get amount of total pages
 }

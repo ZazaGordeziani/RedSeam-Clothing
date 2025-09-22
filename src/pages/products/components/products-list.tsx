@@ -4,34 +4,60 @@ import type {
     ProductsListProps,
 } from '@/pages/products/components/utils'
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
 export const ProductsList = ({
     priceFrom,
     priceTo,
     sort,
-}: ProductsListProps) => {
+    currentPage,
+    onTotalPagesChange,
+}: ProductsListProps & {
+    currentPage: number
+    onTotalPagesChange?: (total: number) => void
+}) => {
     const queryOptions: UseQueryOptions<
         ProductResponse,
         Error,
         ProductResponse,
         readonly unknown[]
     > = {
-        queryKey: ['products', priceFrom ?? 0, priceTo ?? 1000000, sort ?? ''],
+        queryKey: [
+            'products',
+            priceFrom ?? 0,
+            priceTo ?? 1000000,
+            sort ?? '',
+            currentPage,
+        ],
         queryFn: async () => {
             const res = await httpClient.get<ProductResponse>('/products', {
                 params: {
                     'filter[price_from]': priceFrom ?? 0,
                     'filter[price_to]': priceTo ?? 1000000,
                     ...(sort ? { sort } : {}),
+                    page: currentPage,
                 },
             })
-            return res.data
+
+            const result = res.data
+
+            if (result.meta?.last_page && onTotalPagesChange) {
+                onTotalPagesChange(result.meta.last_page)
+            }
+
+            return result
         },
         staleTime: 2 * 60 * 1000,
         refetchOnWindowFocus: false,
     }
 
     const { data, isLoading, isError, error } = useQuery(queryOptions)
+
+    useEffect(() => {
+        if (data?.meta?.last_page && onTotalPagesChange) {
+            onTotalPagesChange(data.meta.last_page)
+        }
+    }, [data?.meta?.last_page, onTotalPagesChange])
 
     if (isError) return <div>Error: {error?.message}</div>
 
@@ -66,7 +92,7 @@ export const ProductsList = ({
                 {data?.data.map((product) => (
                     <div
                         key={product.id}
-                        className="h-[614px] rounded border border-red-600 shadow"
+                        className="min-h-[614px] rounded border border-red-600 shadow"
                     >
                         <img
                             src={product.cover_image}
