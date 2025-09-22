@@ -90,9 +90,9 @@ export const Products = () => {
                 onTotalPagesChange={setTotalPages}
             />
             <Pagination
-                currentPage={currentPage} // current page displayed
-                totalPages={totalPages} // total pages received from backend
-                onPageChange={handlePageChange} // called when user clicks a new page
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
             />
         </div>
     )

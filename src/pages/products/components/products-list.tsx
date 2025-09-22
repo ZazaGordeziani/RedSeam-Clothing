@@ -64,7 +64,7 @@ export const ProductsList = ({
     const placeholderItems = Array.from({ length: 8 })
 
     return (
-        <div className="min-h-[614px] w-full px-24 py-8">
+        <div className="w-full px-24 py-8">
             {isLoading && (
                 <div className="grid grid-cols-4 gap-3 gap-y-6">
                     {placeholderItems.map((_, index) => (
@@ -90,14 +90,11 @@ export const ProductsList = ({
 
             <div className="grid grid-cols-4 gap-3 gap-y-6">
                 {data?.data.map((product) => (
-                    <div
-                        key={product.id}
-                        className="min-h-[614px] rounded border border-red-600 shadow"
-                    >
+                    <div key={product.id} className="rounded shadow">
                         <img
                             src={product.cover_image}
                             alt={product.name}
-                            className="h-[549px] w-full rounded-[10px] object-cover"
+                            className="aspect-[4/5] w-full rounded-[10px] object-contain"
                         />
                         <div className="mt-3 flex flex-col gap-[2px] font-poppins font-medium leading-[100%]">
                             <h2 className="text-lg">{product.name}</h2>

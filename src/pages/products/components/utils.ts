@@ -41,5 +41,5 @@ export interface ProductsListProps {
     priceFrom?: number | null
     priceTo?: number | null
     sort?: string | null
-    onTotalPagesChange?: (totalPages: number) => void // to get amount of total pages
+    onTotalPagesChange?: (totalPages: number) => void
 }
