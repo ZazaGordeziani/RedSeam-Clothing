@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { FilterIcon } from '@/pages/products/assets/filter-icon'
+import { FilterIcon } from '@/pages/products/components/assets/filter-icon'
 import { useSearchParams } from 'react-router-dom'
 import type { FilterDropdownProps } from '@/pages/products/components/utils'
 

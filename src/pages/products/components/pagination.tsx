@@ -39,12 +39,16 @@ export const Pagination = ({
             pages.push('...')
         }
     }
+    const handlePageChange = (page: number) => {
+        onPageChange(page)
+        window.scrollTo({ top: 0, behavior: 'auto' })
+    }
 
     return (
         <div className="mb-48 mt-20 flex gap-2">
             <button
                 disabled={currentPage === 1}
-                onClick={() => onPageChange(currentPage - 1)}
+                onClick={() => handlePageChange(currentPage - 1)}
                 className="disabled:opacity-50"
             >
                 <LeftArrow />
@@ -65,7 +69,7 @@ export const Pagination = ({
                 ) : (
                     <button
                         key={`page-${page}-${index}`}
-                        onClick={() => onPageChange(Number(page))}
+                        onClick={() => handlePageChange(Number(page))}
                         className={`h-8 w-8 rounded border font-poppins text-sm font-medium leading-[100%] ${
                             page === currentPage
                                 ? 'rounded border border-orange-600 text-orange-600'
@@ -79,7 +83,7 @@ export const Pagination = ({
 
             <button
                 disabled={currentPage === totalPages}
-                onClick={() => onPageChange(currentPage + 1)}
+                onClick={() => handlePageChange(currentPage + 1)}
                 className="disabled:opacity-50"
             >
                 <RightArrow />

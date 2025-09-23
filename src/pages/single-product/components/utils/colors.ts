@@ -1,16 +1,15 @@
 import colorName from 'color-name'
 
-// Fallback map for non-standard colors
 const customColors: Record<string, string> = {
     cream: '#FFFDD0',
     'navy blue': '#000080',
     peach: '#FFE5B4',
     'off white': '#F2F0EF',
     mauve: '#E0B0FF',
+    white: '#FCF5E5	',
 }
 
 const softenColor = (rgb: number[], factor = 0.5): number[] => {
-    // factor 0.5 means 50% toward white
     return rgb.map((c) => Math.round(c + (255 - c) * factor))
 }
 

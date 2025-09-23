@@ -1,4 +1,4 @@
-import { SortArrow } from '@/pages/products/assets/sort-arrow'
+import { SortArrow } from '@/pages/products/components/assets/sort-arrow'
 import { FilterDropdown } from './filter'
 import { SortDropdown } from '@/pages/products/components/sort'
 import type { ProductsToolbarProps } from '@/pages/products/components/utils'
