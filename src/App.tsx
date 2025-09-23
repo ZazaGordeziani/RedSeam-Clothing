@@ -21,6 +21,9 @@ function App() {
     const LazyRegisterPage = lazy(() => import('@/pages/auth/register/view'))
     const LazyAuthPage = lazy(() => import('@/pages/auth/index'))
     const LazyProductsPage = lazy(() => import('@/pages/products/index'))
+    const LazySingleProductPage = lazy(
+        () => import('@/pages/single-product/views'),
+    )
     const LazyNotFoundPage = lazy(() => import('@/pages/404'))
 
     return (
@@ -36,6 +39,10 @@ function App() {
                     <Route index element={<LazyProductsPage />} />
 
                     <Route path="products" element={<LazyProductsPage />} />
+                    <Route
+                        path="products/:id"
+                        element={<LazySingleProductPage />}
+                    />
 
                     <Route path="auth" element={<LazyAuthPage />}>
                         <Route path="login" element={<LazyLoginPage />} />

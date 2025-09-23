@@ -5,6 +5,7 @@ import type {
 } from '@/pages/products/components/utils'
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 
 export const ProductsList = ({
     priceFrom,
@@ -116,7 +117,11 @@ export const ProductsList = ({
 
             <div className="grid grid-cols-4 gap-3 gap-y-6">
                 {data?.data.map((product) => (
-                    <div key={product.id} className="rounded shadow">
+                    <Link
+                        to={`/products/${product.id}`}
+                        key={product.id}
+                        className="rounded shadow"
+                    >
                         <img
                             src={product.cover_image}
                             alt={product.name}
@@ -126,7 +131,7 @@ export const ProductsList = ({
                             <h2 className="text-lg">{product.name}</h2>
                             <p className="text-base">$ {product.price}</p>
                         </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>

@@ -59,6 +59,8 @@ export const Login = () => {
                 errors?: Record<string, string[]>
             }
             if (data?.errors) {
+                console.log('All backend validation errors:', data.errors) // 👈 logs entire object
+
                 Object.entries(data.errors).forEach(([field, messages]) => {
                     setError(field as keyof LoginFormValues, {
                         type: 'server',
@@ -66,7 +68,10 @@ export const Login = () => {
                     })
                 })
             } else if (data?.message) {
-                alert(data.message)
+                setError('password', {
+                    type: 'server',
+                    message: data.message,
+                })
             }
         },
     })
