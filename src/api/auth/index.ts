@@ -22,7 +22,7 @@ export const register = async (form: RegisterFormValues) => {
     formData.append('password_confirmation', form.confirmPassword)
     if (form.avatar) formData.append('avatar', form.avatar)
 
-    //debug
+    //just for debugging
     for (const [key, value] of formData.entries()) {
         console.log(key, value)
     }

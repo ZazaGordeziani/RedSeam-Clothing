@@ -2,8 +2,9 @@
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import type { SingleProduct } from '@/pages/single-product/components/utils'
+import type { SingleProduct } from '@/pages/single-product/components/utils/utils'
 import { fetchProductById } from '@/react-query/query/single-product'
+import { getColorHex } from '@/pages/single-product/components/utils/colors'
 
 export const SingleProductPage = () => {
     const { id } = useParams<{ id: string }>()
@@ -41,18 +42,17 @@ export const SingleProductPage = () => {
     const hasSizes = data.available_sizes && data.available_sizes.length > 0
 
     return (
-        <div className="grid grid-cols-2 gap-10 p-10 font-poppins">
+        <div className="grid grid-cols-2 gap-16 p-10 font-poppins">
             <div className="flex flex-col gap-8">
                 <p className="font-medium text-gray-500">Listing / Product</p>{' '}
                 <div className="flex gap-4">
-                    {/* <-- added text */}
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-[9px]">
                         {data.images.map((img, i) => (
                             <img
                                 key={i}
                                 src={img}
-                                alt={`thumbnail-${i}`}
-                                className="h-20 w-20 cursor-pointer rounded border border-gray-300 object-cover"
+                                alt={`image-${i}`}
+                                className="max-h-[160px] max-w-[120px] cursor-pointer rounded border border-gray-300 object-contain shadow-md"
                                 onClick={() => setMainImage(img)}
                             />
                         ))}
@@ -61,79 +61,98 @@ export const SingleProductPage = () => {
                         <img
                             src={displayedImage}
                             alt={data.name}
-                            className="w-full rounded-lg border border-gray-200"
+                            style={{
+                                border: '1px solid white',
+                                borderRadius: '10px',
+                            }}
+                            className="max-h-[940px] w-full max-w-[700px] shadow-xl"
                         />
                     </div>
                 </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-                <h1 className="text-3xl font-bold">{data.name}</h1>
-                <p className="text-xl font-semibold">$ {data.price}</p>
-
-                <div>
-                    <p className="font-medium">Colors:</p>
-                    {hasColors ? (
-                        <div className="mt-1 flex gap-2">
-                            {data.available_colors!.map((color) => (
-                                <button
-                                    key={color}
-                                    className={`rounded border px-3 py-1 ${
-                                        selectedColor === color
-                                            ? 'bg-gray-800 text-white'
-                                            : 'bg-white text-gray-800'
-                                    }`}
-                                    onClick={() => setSelectedColor(color)}
-                                >
-                                    {color}
-                                </button>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="text-gray-500">No available colors</p>
-                    )}
+            <div className="flex flex-col gap-14">
+                <div className="flex flex-col gap-[21px] text-[32px] font-semibold leading-[100%]">
+                    <h1>{data.name}</h1>
+                    <p>$ {data.price}</p>
                 </div>
-
                 <div>
-                    <p className="font-medium">Sizes:</p>
-                    {hasSizes ? (
-                        <div className="mt-1 flex gap-2">
-                            {data.available_sizes!.map((size) => (
-                                <button
-                                    key={size}
-                                    className={`rounded border px-3 py-1 ${
-                                        selectedSize === size
-                                            ? 'bg-gray-800 text-white'
-                                            : 'bg-white text-gray-800'
-                                    }`}
-                                    onClick={() => setSelectedSize(size)}
-                                >
-                                    {size}
-                                </button>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="">No available sizes</p>
-                    )}
-                </div>
+                    <div className="flex flex-col gap-6">
+                        <p className="font-medium">Colors:</p>
+                        {hasColors ? (
+                            <div className="flex gap-3">
+                                {data.available_colors!.map((color) => {
+                                    const bgColor = getColorHex(color)
+                                    const isSelected = selectedColor === color
 
-                <div>
-                    <p className="font-medium">Quantity:</p>
-                    <select
-                        value={quantity}
-                        onChange={(e) => setQuantity(Number(e.target.value))}
-                        className="mt-1 rounded border px-2 py-1"
-                    >
-                        {Array.from({ length: 10 }, (_, i) => i + 1).map(
-                            (q) => (
-                                <option key={q} value={q}>
-                                    {q}
-                                </option>
-                            ),
+                                    return (
+                                        <button
+                                            key={color}
+                                            style={{
+                                                background: bgColor,
+                                                border: isSelected
+                                                    ? '1px solid #E1DFE1'
+                                                    : '',
+                                                padding: '4px',
+                                                borderRadius: '50%',
+                                                backgroundClip: 'content-box',
+                                            }}
+                                            className="h-[38px] w-[38px]"
+                                            onClick={() =>
+                                                setSelectedColor(color)
+                                            }
+                                            title={color}
+                                        />
+                                    )
+                                })}
+                            </div>
+                        ) : (
+                            <p className="text-gray-500">No available colors</p>
                         )}
-                    </select>
-                </div>
+                    </div>
 
+                    <div>
+                        <p className="font-medium">Sizes:</p>
+                        {hasSizes ? (
+                            <div className="mt-1 flex gap-2">
+                                {data.available_sizes!.map((size) => (
+                                    <button
+                                        key={size}
+                                        className={`rounded border px-3 py-1 ${
+                                            selectedSize === size
+                                                ? 'bg-gray-800 text-white'
+                                                : 'bg-white text-gray-800'
+                                        }`}
+                                        onClick={() => setSelectedSize(size)}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="">No available sizes</p>
+                        )}
+                    </div>
+
+                    <div>
+                        <p className="font-medium">Quantity:</p>
+                        <select
+                            value={quantity}
+                            onChange={(e) =>
+                                setQuantity(Number(e.target.value))
+                            }
+                            className="mt-1 rounded border px-2 py-1"
+                        >
+                            {Array.from({ length: 10 }, (_, i) => i + 1).map(
+                                (q) => (
+                                    <option key={q} value={q}>
+                                        {q}
+                                    </option>
+                                ),
+                            )}
+                        </select>
+                    </div>
+                </div>
                 <button
                     className="mt-4 rounded bg-orange-600 px-4 py-2 text-white disabled:opacity-50"
                     disabled={!hasColors || !hasSizes}

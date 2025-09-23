@@ -38,7 +38,7 @@ export const Login = () => {
 
     const { mutate: handleLogin } = useLogin({
         onSuccess: (data: LoginResponse) => {
-            console.log(data.user?.avatar)
+            // console.log(data.user?.avatar)
             if (data.token) localStorage.setItem('token', data.token)
             if (data.user?.username)
                 localStorage.setItem('username', data.user.username)
@@ -77,7 +77,7 @@ export const Login = () => {
     })
 
     const onSubmit = (formData: LoginFormValues) => {
-        console.log('loggedin from buton')
+        // console.log('loggedin from buton')
         handleLogin(formData)
     }
     return (

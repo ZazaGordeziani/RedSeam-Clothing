@@ -76,7 +76,7 @@ export const Products = () => {
 
         setSearchParams(params)
     }
-    console.log('totalPages:', totalPages)
+    // console.log('totalPages:', totalPages)
 
     return (
         <div className="flex w-full max-w-[1920px] flex-col items-center">

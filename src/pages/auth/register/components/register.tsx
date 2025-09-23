@@ -46,9 +46,9 @@ export const Register = () => {
     })
 
     const onSubmit = (registerPayload: RegisterFormValues) => {
-        console.log(import.meta.env.VITE_BASE_URL)
+        // console.log(import.meta.env.VITE_BASE_URL)
 
-        console.log(registerPayload)
+        // console.log(registerPayload)
         handleRegister(registerPayload)
     }
 
