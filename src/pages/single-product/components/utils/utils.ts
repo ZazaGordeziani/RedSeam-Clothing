@@ -1,3 +1,5 @@
+import { httpClient } from '@/api'
+
 export interface Brand {
     id: number
     name: string
@@ -18,4 +20,18 @@ export interface SingleProduct {
 
     available_colors?: string[]
     available_sizes?: string[]
+}
+
+export const fetchProductById = async (id: string): Promise<SingleProduct> => {
+    const response = await httpClient.get<SingleProduct>(`/products/${id}`)
+    console.log(response.data)
+    return response.data
+}
+export interface BackendError {
+    response?: {
+        data?: {
+            message?: string
+            errors?: { message?: string }
+        }
+    }
 }

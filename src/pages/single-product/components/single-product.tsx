@@ -1,28 +1,46 @@
-// src/pages/products/components/ProductDetails.tsx
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { type SingleProduct } from '@/pages/single-product/components/utils/utils'
-import { fetchProductById } from '@/react-query/query/single-product'
+import { useAtomValue } from 'jotai'
+import { userAtom } from '@/store/auth'
+import {
+    fetchProductById,
+    type SingleProduct,
+} from '@/pages/single-product/components/utils/utils'
 import { getColorHex } from '@/pages/single-product/components/utils/colors'
 import { DownArrow } from '@/assets/down-arrow'
 import CartIconWhite from '@/pages/single-product/components/assets/cart-icon-white'
 import { formatProductName } from '@/pages/products/utils/utils'
 import { BounceLoader } from 'react-spinners'
+import { addToCart } from '@/pages/cart/components/cart'
+
+// Type-safe interface for backend error response
+interface BackendError {
+    response?: {
+        data?: {
+            message?: string
+            errors?: { message?: string }
+        }
+    }
+}
 
 export const SingleProductPage = () => {
     const { id } = useParams<{ id: string }>()
+    const user = useAtomValue(userAtom)
+    const token = localStorage.getItem('token')
+    const isAuthenticated = !!user && !!token
+
     const [mainImage, setMainImage] = useState<string | null>(null)
     const [selectedColor, setSelectedColor] = useState<string | null>(null)
     const [selectedSize, setSelectedSize] = useState<string | null>(null)
     const [quantity, setQuantity] = useState<number>(1)
+    const [cartError, setCartError] = useState<string | null>(null)
 
     const { data, isLoading, isError, error } = useQuery<SingleProduct>({
         queryKey: ['single-product', id],
         queryFn: () => fetchProductById(id!),
     })
-    console.log(data)
-
+    console.log(data?.quantity)
     useEffect(() => {
         if (!selectedColor) return
         const colorIndex =
@@ -31,10 +49,16 @@ export const SingleProductPage = () => {
             setMainImage(data.images[colorIndex])
         }
     }, [selectedColor, data])
+
+    useEffect(() => {
+        if (data?.available_colors && data.available_colors.length > 0) {
+            setSelectedColor((prev) => prev ?? data.available_colors![0])
+        }
+    }, [data])
+
     if (isLoading)
         return (
             <div className="flex h-screen w-screen items-center justify-center">
-                {' '}
                 <BounceLoader color="#FF7F00" />
             </div>
         )
@@ -42,14 +66,34 @@ export const SingleProductPage = () => {
     if (!data) return <div>No product found</div>
 
     const displayedImage = mainImage || data.images[0] || data.cover_image
-
     const hasColors = data.available_colors && data.available_colors.length > 0
     const hasSizes = data.available_sizes && data.available_sizes.length > 0
 
+    const handleAddToCart = async () => {
+        if (!data || !selectedColor || !selectedSize) return
+        if (!isAuthenticated) {
+            setCartError('Please log in to add products to cart.')
+            return
+        }
+
+        try {
+            setCartError(null)
+            await addToCart(data.id, selectedColor, selectedSize, quantity)
+        } catch (err: unknown) {
+            const backendErr = err as BackendError
+            const message =
+                backendErr.response?.data?.message ||
+                backendErr.response?.data?.errors?.message ||
+                (err instanceof Error ? err.message : "Can't add the product")
+            setCartError(message)
+        }
+    }
+
     return (
         <div className="flex flex-col gap-10 pl-[106px] pt-4">
-            <p className="font-medium text-gray-500">Listing / Product</p>{' '}
+            <p className="font-medium text-gray-500">Listing / Product</p>
             <div className="grid grid-cols-2 gap-48 pb-24 font-poppins">
+                {/* Left: images */}
                 <div className="flex flex-col gap-8">
                     <div className="flex gap-4">
                         <div className="flex flex-col gap-[9px]">
@@ -63,7 +107,7 @@ export const SingleProductPage = () => {
                                 />
                             ))}
                         </div>
-                        <div className="">
+                        <div>
                             <img
                                 src={displayedImage}
                                 alt={data.name}
@@ -82,16 +126,18 @@ export const SingleProductPage = () => {
                         <h1>{formatProductName(data.name)}</h1>
                         <p>$ {data.price}</p>
                     </div>
+
                     <div className="flex flex-col gap-12">
                         <div className="flex flex-col gap-6">
-                            <p className="font-medium">Colors:</p>
+                            <p className="font-medium">
+                                Color: {selectedColor}
+                            </p>
                             {hasColors ? (
                                 <div className="flex gap-3">
                                     {data.available_colors!.map((color) => {
                                         const bgColor = getColorHex(color)
                                         const isSelected =
                                             selectedColor === color
-
                                         return (
                                             <button
                                                 key={color}
@@ -142,7 +188,7 @@ export const SingleProductPage = () => {
                                     ))}
                                 </div>
                             ) : (
-                                <p className="">No available sizes</p>
+                                <p>No available sizes</p>
                             )}
                         </div>
 
@@ -168,15 +214,32 @@ export const SingleProductPage = () => {
                                 <DownArrow />
                             </div>
                         </div>
+
                         <button
-                            className="mt-4 flex items-center justify-center gap-[10px] rounded-[10px] bg-orange-600 px-[60px] py-4 text-lg font-medium text-white disabled:opacity-50"
-                            disabled={!hasColors || !hasSizes}
+                            onClick={handleAddToCart}
+                            className={`mt-4 flex items-center justify-center gap-[10px] rounded-[10px] px-[60px] py-4 text-lg font-medium text-white ${
+                                !hasColors || !hasSizes || !isAuthenticated
+                                    ? 'cursor-not-allowed bg-orange-300'
+                                    : 'bg-orange-600 hover:bg-orange-700'
+                            } `}
+                            disabled={
+                                !hasColors || !hasSizes || !isAuthenticated
+                            }
                         >
-                            <p>
-                                <CartIconWhite />
-                            </p>
+                            <CartIconWhite />
                             <p>Add to cart</p>
                         </button>
+
+                        {cartError && (
+                            <p className="mt-2 text-sm text-red-600">
+                                {cartError}
+                            </p>
+                        )}
+                        {!isAuthenticated && (
+                            <p className="mt-2 text-sm text-red-600">
+                                Please log in to add products to cart.
+                            </p>
+                        )}
                     </div>
                     <div>
                         <hr />
@@ -188,7 +251,8 @@ export const SingleProductPage = () => {
                             <img
                                 className="h-[61px] w-[109px]"
                                 src={data?.brand.image}
-                            ></img>
+                                alt={data.brand.name}
+                            />
                         </div>
                         <div className="mt-2 flex flex-col gap-[19px] text-base font-normal">
                             <p>Brand: {data.brand.name}</p>
