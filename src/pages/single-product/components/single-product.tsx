@@ -14,7 +14,6 @@ import { formatProductName } from '@/pages/products/utils/utils'
 import { BounceLoader } from 'react-spinners'
 import { addToCart } from '@/pages/cart/components/cart'
 
-// Type-safe interface for backend error response
 interface BackendError {
     response?: {
         data?: {
@@ -28,6 +27,9 @@ export const SingleProductPage = () => {
     const { id } = useParams<{ id: string }>()
     const user = useAtomValue(userAtom)
     const token = localStorage.getItem('token')
+
+    console.log('Token from localStorage:', token)
+    console.log('Is user logged in?', !!user)
     const isAuthenticated = !!user && !!token
 
     const [mainImage, setMainImage] = useState<string | null>(null)
@@ -103,7 +105,17 @@ export const SingleProductPage = () => {
                                     src={img}
                                     alt={`image-${i}`}
                                     className="max-h-[160px] max-w-[120px] cursor-pointer rounded border border-gray-300 object-contain shadow-md"
-                                    onClick={() => setMainImage(img)}
+                                    onClick={() => {
+                                        setMainImage(img)
+                                        if (
+                                            data.available_colors &&
+                                            data.available_colors[i]
+                                        ) {
+                                            setSelectedColor(
+                                                data.available_colors[i],
+                                            )
+                                        }
+                                    }}
                                 />
                             ))}
                         </div>

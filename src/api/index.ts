@@ -17,6 +17,8 @@ export const httpClient = axios.create({
 
 httpClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('token')
+    console.log('Interceptor Token:', token) // ✅ check token here
+
     if (token) {
         config.headers.Authorization = `Bearer ${token}`
     }
