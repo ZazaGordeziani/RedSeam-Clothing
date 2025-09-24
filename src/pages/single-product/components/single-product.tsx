@@ -170,10 +170,10 @@ export const SingleProductPage = () => {
                                     {data.available_sizes!.map((size) => (
                                         <button
                                             key={size}
-                                            className={`h-[42px] w-[70px] rounded-[10px] border border-neutral-200 px-4 py-[9px] ${
+                                            className={`h-[42px] w-[70px] rounded-[10px] border px-4 py-[9px] ${
                                                 selectedSize === size
                                                     ? 'border-gray-900'
-                                                    : ''
+                                                    : 'border-neutral-200'
                                             }`}
                                             onClick={() =>
                                                 setSelectedSize(size)

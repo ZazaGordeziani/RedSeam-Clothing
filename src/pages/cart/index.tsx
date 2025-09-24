@@ -133,7 +133,7 @@ export const Cart = ({ isOpen, onClose }: CartProps) => {
                         <div className="flex flex-col gap-8">
                             {items.map((item) => (
                                 <div
-                                    key={item.id}
+                                    key={`${item.id}-${item.color}-${item.size}`}
                                     className="flex items-center justify-between"
                                 >
                                     <div className="flex gap-4">

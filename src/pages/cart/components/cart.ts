@@ -8,17 +8,15 @@ export const addToCart = async (
 ) => {
     const token = localStorage.getItem('token')
 
+    const cartItemId = `${productId}-${color}-${size}`
+    console.log('Generated cartItemId:', cartItemId)
     const response = await httpClient.post(
         `/cart/products/${productId}`,
-        {
-            color,
-            size,
-            quantity,
-        },
+        { cartItemId, color, size, quantity },
         {
             headers: token ? { Authorization: `Bearer ${token}` } : {},
         },
     )
 
-    return response.data
+    return { ...response.data, cartItemId }
 }
