@@ -14,15 +14,6 @@ import { formatProductName } from '@/pages/products/utils/utils'
 import { BounceLoader } from 'react-spinners'
 import { addToCart } from '@/pages/cart/components/cart'
 
-interface BackendError {
-    response?: {
-        data?: {
-            message?: string
-            errors?: { message?: string }
-        }
-    }
-}
-
 export const SingleProductPage = () => {
     const { id } = useParams<{ id: string }>()
     const user = useAtomValue(userAtom)
@@ -36,7 +27,7 @@ export const SingleProductPage = () => {
     const [selectedColor, setSelectedColor] = useState<string | null>(null)
     const [selectedSize, setSelectedSize] = useState<string | null>(null)
     const [quantity, setQuantity] = useState<number>(1)
-    const [cartError, setCartError] = useState<string | null>(null)
+    // const [cartError, setCartError] = useState<string | null>(null)
 
     const { data, isLoading, isError, error } = useQuery<SingleProduct>({
         queryKey: ['single-product', id],
@@ -72,22 +63,15 @@ export const SingleProductPage = () => {
     const hasSizes = data.available_sizes && data.available_sizes.length > 0
 
     const handleAddToCart = async () => {
+        // Only one condition now: check if user is logged in
+        if (!isAuthenticated) return
+
         if (!data || !selectedColor || !selectedSize) return
-        if (!isAuthenticated) {
-            setCartError('Please log in to add products to cart.')
-            return
-        }
 
         try {
-            setCartError(null)
             await addToCart(data.id, selectedColor, selectedSize, quantity)
-        } catch (err: unknown) {
-            const backendErr = err as BackendError
-            const message =
-                backendErr.response?.data?.message ||
-                backendErr.response?.data?.errors?.message ||
-                (err instanceof Error ? err.message : "Can't add the product")
-            setCartError(message)
+        } catch (err) {
+            console.error("Can't add the product", err)
         }
     }
 
@@ -242,14 +226,9 @@ export const SingleProductPage = () => {
                             <p>Add to cart</p>
                         </button>
 
-                        {cartError && (
-                            <p className="mt-2 text-sm text-red-600">
-                                {cartError}
-                            </p>
-                        )}
                         {!isAuthenticated && (
-                            <p className="mt-2 text-sm text-red-600">
-                                Please log in to add products to cart.
+                            <p className="text-xl text-red-600">
+                                Please log in to add product to cart.
                             </p>
                         )}
                     </div>
