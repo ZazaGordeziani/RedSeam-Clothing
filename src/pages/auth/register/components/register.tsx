@@ -3,7 +3,7 @@ import { SignUpFormSchema } from '@/pages/auth/register/components/schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Eye } from '@/pages/auth/assets/eye'
 import { SlashEye } from '@/assets/slash-eye'
 import { useRegister } from '@/react-query/mutation'
@@ -16,9 +16,10 @@ import { InputAsterisk } from '@/components/ui/asterisk'
 
 export const Register = () => {
     const avatarRef = useRef<HTMLInputElement>(null)
-    const [showPassword, setShowPassword] = useState<boolean>(true)
+    const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showConfirmPassword, setShowConfirmPassword] =
-        useState<boolean>(true)
+        useState<boolean>(false)
+    const navigate = useNavigate()
 
     const { control, trigger, setError, clearErrors, handleSubmit } =
         useForm<RegisterFormValues>({
@@ -42,6 +43,10 @@ export const Register = () => {
                     })
                 })
             }
+        },
+        onSuccess: (data) => {
+            console.log('Registration successful!', data)
+            navigate('/auth/login')
         },
     })
 

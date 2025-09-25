@@ -15,7 +15,7 @@ import { useAtom } from 'jotai'
 import { InputAsterisk } from '@/components/ui/asterisk'
 
 export const Login = () => {
-    const [showPassword, setShowPassword] = useState<boolean>(true)
+    const [showPassword, setShowPassword] = useState<boolean>(false)
     const [, setUser] = useAtom(userAtom)
 
     const navigate = useNavigate()
