@@ -46,10 +46,30 @@ export const Cart = ({ isOpen, onClose }: CartProps) => {
         }
     }, [isOpen])
 
-    const removeItem = async (id: number) => {
+    // const removeItem = async (id: number) => {
+    //     try {
+    //         await httpClient.delete(`/cart/products/${id}`)
+    //         setItems((prev) => prev.filter((item) => item.id !== id))
+    //     } catch (err) {
+    //         console.error('Failed to remove item:', err)
+    //     }
+    // }
+
+    const removeItem = async (id: number, color: string, size: string) => {
         try {
-            await httpClient.delete(`/cart/products/${id}`)
-            setItems((prev) => prev.filter((item) => item.id !== id))
+            await httpClient.delete(`/cart/products/${id}`, {
+                data: { color, size },
+            })
+            setItems((prev) =>
+                prev.filter(
+                    (item) =>
+                        !(
+                            item.id === id &&
+                            item.color === color &&
+                            item.size === size
+                        ),
+                ),
+            )
         } catch (err) {
             console.error('Failed to remove item:', err)
         }
@@ -195,7 +215,13 @@ export const Cart = ({ isOpen, onClose }: CartProps) => {
                                             ${item.price * item.quantity}
                                         </p>
                                         <button
-                                            onClick={() => removeItem(item.id)}
+                                            onClick={() =>
+                                                removeItem(
+                                                    item.id,
+                                                    item.color,
+                                                    item.size,
+                                                )
+                                            }
                                             className="pb-2 text-xs text-zinc-700"
                                         >
                                             Remove
