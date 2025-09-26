@@ -1,8 +1,11 @@
+import { SortArrow } from '@/pages/products/components/assets/sort-arrow'
 import { useState, useRef, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 export interface SortDropdownProps {
     onSelect?: (sortOption: string) => void
+    isOpen?: boolean
+    onToggle?: () => void
 }
 
 const sortOptions: Record<string, string> = {
@@ -11,8 +14,12 @@ const sortOptions: Record<string, string> = {
     '-price': 'Price, high to low',
 }
 
-export const SortDropdown = ({ onSelect }: SortDropdownProps) => {
-    const [open, setOpen] = useState(false)
+export const SortDropdown = ({
+    onSelect,
+    isOpen,
+    onToggle,
+}: SortDropdownProps) => {
+    // const [open, setOpen] = useState(false)
     const [selectedLabel, setSelectedLabel] = useState<string>('Sort by')
     const containerRef = useRef<HTMLDivElement>(null)
 
@@ -33,18 +40,18 @@ export const SortDropdown = ({ onSelect }: SortDropdownProps) => {
                 containerRef.current &&
                 !containerRef.current.contains(event.target as Node)
             ) {
-                setOpen(false)
+                if (isOpen && onToggle) onToggle()
             }
         }
         document.addEventListener('mousedown', handleClickOutside)
         return () =>
             document.removeEventListener('mousedown', handleClickOutside)
-    }, [])
+    }, [isOpen, onToggle])
 
     const handleSelect = (option: string, label: string) => {
         setSelectedLabel(label)
         if (onSelect) onSelect(option)
-        setOpen(false)
+        if (onToggle) onToggle()
     }
 
     return (
@@ -52,13 +59,14 @@ export const SortDropdown = ({ onSelect }: SortDropdownProps) => {
             <button
                 type="button"
                 className="flex items-center gap-1 text-base font-normal text-gray-900"
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={onToggle}
             >
                 {selectedLabel}
+                <SortArrow />
             </button>
 
-            {open && (
-                <div className="absolute right-[-25px] z-50 mt-2 flex w-[200px] flex-col gap-2 rounded border border-gray-200 bg-white p-4 font-poppins leading-[100%] text-gray-900 shadow-lg">
+            {isOpen && (
+                <div className="absolute left-[-118px] z-50 mt-2 flex w-[200px] flex-col gap-2 rounded border border-gray-200 bg-white p-4 font-poppins leading-[100%] text-gray-900 shadow-lg">
                     <h2 className="text-base font-semibold">Sort by</h2>
                     <p
                         className="cursor-pointer text-base font-normal"

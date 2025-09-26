@@ -1,8 +1,8 @@
-import { SortArrow } from '@/pages/products/components/assets/sort-arrow'
 import { FilterDropdown } from './filter'
 import { SortDropdown } from '@/pages/products/components/sort'
 import type { ProductsToolbarProps } from '@/pages/products/components/utils'
 import { CloseSign } from '@/pages/products/components/assets/close-sign'
+import { useState } from 'react'
 
 export const ProductsToolbar = ({
     priceFrom,
@@ -11,6 +11,9 @@ export const ProductsToolbar = ({
     onApplySort,
     resultsRange,
 }: ProductsToolbarProps) => {
+    const [isSortOpen, setIsSortOpen] = useState(false)
+    const toggleSort = () => setIsSortOpen((prev) => !prev)
+
     const handleClearFilter = () => {
         if (onApplyFilter) {
             onApplyFilter(undefined, undefined)
@@ -39,8 +42,11 @@ export const ProductsToolbar = ({
                     />
 
                     <div className="relative flex items-center gap-1">
-                        <SortDropdown onSelect={onApplySort} />
-                        <SortArrow />
+                        <SortDropdown
+                            onSelect={onApplySort}
+                            isOpen={isSortOpen}
+                            onToggle={toggleSort}
+                        />
                     </div>
                 </div>
             </div>
