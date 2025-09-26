@@ -24,6 +24,7 @@ function App() {
     const LazySingleProductPage = lazy(
         () => import('@/pages/single-product/views'),
     )
+    const LazyCheckOutPage = lazy(() => import('@/pages/checkout/views'))
     const LazyNotFoundPage = lazy(() => import('@/pages/404'))
 
     return (
@@ -48,6 +49,7 @@ function App() {
                         <Route path="login" element={<LazyLoginPage />} />
                         <Route path="register" element={<LazyRegisterPage />} />
                     </Route>
+                    <Route path="/checkout" element={<LazyCheckOutPage />} />
                 </Route>
                 <Route path="*" element={<LazyNotFoundPage />} />
             </Routes>

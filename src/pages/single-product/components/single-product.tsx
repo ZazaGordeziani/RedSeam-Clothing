@@ -12,15 +12,16 @@ import { DownArrow } from '@/assets/down-arrow'
 import CartIconWhite from '@/pages/single-product/components/assets/cart-icon-white'
 import { formatProductName } from '@/pages/products/utils/utils'
 import { BounceLoader } from 'react-spinners'
-import { addToCart } from '@/components/cart/components/cart'
+import { addToCart } from '@/components/cart/components/cart-api'
+import { useCart } from '@/hooks/useCart'
 
 export const SingleProductPage = () => {
     const { id } = useParams<{ id: string }>()
     const user = useAtomValue(userAtom)
     const token = localStorage.getItem('token')
 
-    console.log('Token from localStorage:', token)
-    console.log('Is user logged in?', !!user)
+    // console.log('Token from localStorage:', token)
+    // console.log('Is user logged in?', !!user)
     const isAuthenticated = !!user && !!token
 
     const [mainImage, setMainImage] = useState<string | null>(null)
@@ -28,6 +29,7 @@ export const SingleProductPage = () => {
     const [selectedSize, setSelectedSize] = useState<string | null>(null)
     const [quantity, setQuantity] = useState<number>(1)
     // const [cartError, setCartError] = useState<string | null>(null)
+    const { refreshCart } = useCart()
 
     const { data, isLoading, isError, error } = useQuery<SingleProduct>({
         queryKey: ['single-product', id],
@@ -63,13 +65,13 @@ export const SingleProductPage = () => {
     const hasSizes = data.available_sizes && data.available_sizes.length > 0
 
     const handleAddToCart = async () => {
-        // Only one condition now: check if user is logged in
         if (!isAuthenticated) return
 
         if (!data || !selectedColor || !selectedSize) return
 
         try {
             await addToCart(data.id, selectedColor, selectedSize, quantity)
+            refreshCart()
         } catch (err) {
             console.error("Can't add the product", err)
         }
@@ -79,7 +81,6 @@ export const SingleProductPage = () => {
         <div className="flex flex-col gap-10 pl-[106px] pt-4">
             <p className="font-medium text-gray-500">Listing / Product</p>
             <div className="grid grid-cols-2 gap-48 pb-24 font-poppins">
-                {/* Left: images */}
                 <div className="flex flex-col gap-8">
                     <div className="flex gap-4">
                         <div className="flex flex-col gap-[9px]">
