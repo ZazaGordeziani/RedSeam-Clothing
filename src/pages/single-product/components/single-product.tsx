@@ -12,7 +12,7 @@ import { DownArrow } from '@/assets/down-arrow'
 import CartIconWhite from '@/pages/single-product/components/assets/cart-icon-white'
 import { formatProductName } from '@/pages/products/utils/utils'
 import { BounceLoader } from 'react-spinners'
-import { addToCart } from '@/pages/cart/components/cart'
+import { addToCart } from '@/components/cart/components/cart'
 
 export const SingleProductPage = () => {
     const { id } = useParams<{ id: string }>()
