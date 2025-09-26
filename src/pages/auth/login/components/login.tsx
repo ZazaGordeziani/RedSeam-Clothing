@@ -44,6 +44,7 @@ export const Login = () => {
                 localStorage.setItem('username', data.user.username)
             if (data.user?.avatar)
                 localStorage.setItem('avatar', data.user.avatar)
+            if (data.user?.email) localStorage.setItem('email', data.user.email)
             setUser({
                 username: data.user?.username,
                 avatar: data.user?.avatar || undefined,

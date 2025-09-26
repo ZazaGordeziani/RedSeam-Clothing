@@ -69,6 +69,7 @@ export const Cart = ({ isOpen, onClose }: CartProps) => {
 
                 {cartItems.length > 0 && (
                     <CartSummary
+                        className="p-4"
                         subtotal={subtotal}
                         delivery={delivery}
                         total={total}

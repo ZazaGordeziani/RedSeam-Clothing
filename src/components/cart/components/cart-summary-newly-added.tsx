@@ -7,9 +7,11 @@ interface Props {
     total: number
     onClose?: () => void
     showCheckoutButton?: boolean
+    className: string
 }
 
 export const CartSummary = ({
+    className,
     subtotal,
     delivery,
     total,
@@ -19,7 +21,9 @@ export const CartSummary = ({
     const navigate = useNavigate()
 
     return (
-        <div className="flex flex-col gap-4 border-t p-4 font-poppins text-base font-normal text-zinc-700">
+        <div
+            className={`${className} flex flex-col gap-4 border-t font-poppins text-base font-normal text-zinc-700`}
+        >
             <div className="flex justify-between">
                 <span>Items subtotal</span>
                 <span>${subtotal}</span>

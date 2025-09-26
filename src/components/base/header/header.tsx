@@ -23,6 +23,7 @@ export const Header = () => {
         localStorage.removeItem('token')
         localStorage.removeItem('username')
         localStorage.removeItem('avatar')
+        localStorage.removeItem('email')
         delete httpClient?.defaults?.headers?.common['Authorization']
         setUser(null)
         navigate('/')

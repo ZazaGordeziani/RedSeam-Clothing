@@ -25,3 +25,7 @@ body #root {
     flex-direction: column;
 }
 /* src/index.css or styles.css */
+
+.checkout-input::placeholder {
+    @apply font-poppins text-[14px] font-normal text-zinc-700;
+}
