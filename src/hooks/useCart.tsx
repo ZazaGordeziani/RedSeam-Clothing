@@ -6,11 +6,12 @@ import {
     removeCartItem,
     updateCartItemQuantity,
 } from '@/components/cart/components/cart-api'
-import { cartAtom } from '@/store/cart/cart'
+import { cartAtom, cartOpenAtom } from '@/store/cart/cart'
 
 export const useCart = () => {
     const [cartItems, setCartItems] = useAtom(cartAtom)
     const [loading, setLoading] = useState(false)
+    const [isCartOpen, setIsCartOpen] = useAtom(cartOpenAtom)
 
     const getCart = useCallback(async () => {
         setLoading(true)
@@ -71,6 +72,8 @@ export const useCart = () => {
     const total = subtotal + delivery
 
     const refreshCart = () => getCart()
+    const openCart = () => setIsCartOpen(true)
+    const closeCart = () => setIsCartOpen(false)
 
     useEffect(() => {
         getCart()
@@ -85,5 +88,8 @@ export const useCart = () => {
         delivery,
         total,
         refreshCart,
+        isCartOpen,
+        openCart,
+        closeCart,
     }
 }

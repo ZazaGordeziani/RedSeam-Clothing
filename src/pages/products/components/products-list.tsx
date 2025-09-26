@@ -130,6 +130,7 @@ export const ProductsList = ({
                             src={product.cover_image}
                             alt={product.name}
                             className="aspect-[4/5] w-full rounded-[10px] object-contain"
+                            loading="lazy"
                         />
                         <div className="mt-3 flex flex-col gap-[2px] font-poppins font-medium leading-[100%]">
                             <h2 className="text-lg">

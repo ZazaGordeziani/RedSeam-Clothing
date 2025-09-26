@@ -4,12 +4,12 @@ import { CloseSign } from '@/assets/clolse-sign'
 
 import { EmptyCart } from '@/components/cart/components/empty-cart-newly-added'
 import { useCart } from '@/hooks/useCart'
-import type { CartProps } from '@/components/cart/components/cart-types'
+// import type { CartProps } from '@/components/cart/components/cart-types'
 import { BounceLoader } from 'react-spinners'
 import { CartItemCard } from '@/components/cart/components/cart-item-cart-newly added'
 import { CartSummary } from '@/components/cart/components/cart-summary-newly-added'
 
-export const Cart = ({ isOpen, onClose }: CartProps) => {
+export const Cart = () => {
     const {
         cartItems,
         loading,
@@ -18,30 +18,33 @@ export const Cart = ({ isOpen, onClose }: CartProps) => {
         subtotal,
         delivery,
         total,
+        isCartOpen,
+        closeCart,
     } = useCart()
     const totalQuantity = cartItems.reduce(
         (sum, item) => sum + item.quantity,
         0,
     )
 
-    if (!isOpen) return null
+    if (!isCartOpen) return null
 
     return createPortal(
         <div className="fixed inset-0 z-50 flex">
-            <div className="fixed inset-0 bg-black/40" onClick={onClose} />
+            <div className="fixed inset-0 bg-black/40" onClick={closeCart} />
 
             <div
                 className={`fixed inset-y-0 right-0 z-50 flex w-[540px] transform flex-col bg-white shadow-lg transition-transform duration-300 ${
-                    isOpen
+                    isCartOpen
                         ? 'translate-x-0 p-4 pr-6 font-poppins text-gray-900'
                         : 'translate-x-full'
                 }`}
+                onClick={(e) => e.stopPropagation()}
             >
                 <div className="mb-8 flex items-center justify-between p-4">
                     <h1 className="text-xl font-medium">
                         Shopping Cart ({totalQuantity})
                     </h1>
-                    <button onClick={onClose}>
+                    <button onClick={closeCart}>
                         <CloseSign />
                     </button>
                 </div>
@@ -52,7 +55,7 @@ export const Cart = ({ isOpen, onClose }: CartProps) => {
                             <BounceLoader color="#FF7F00" />
                         </div>
                     ) : cartItems.length === 0 ? (
-                        <EmptyCart onClose={onClose} />
+                        <EmptyCart onClose={closeCart} />
                     ) : (
                         <div className="flex flex-col gap-8">
                             {cartItems.map((item) => (
@@ -73,7 +76,7 @@ export const Cart = ({ isOpen, onClose }: CartProps) => {
                         subtotal={subtotal}
                         delivery={delivery}
                         total={total}
-                        onClose={onClose}
+                        onClose={closeCart}
                     />
                 )}
             </div>

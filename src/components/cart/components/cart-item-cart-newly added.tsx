@@ -14,6 +14,7 @@ export const CartItemCard = ({
                     src={item.cover_image}
                     alt={item.name}
                     className="h-[134px] w-24 rounded border object-contain shadow"
+                    loading="lazy"
                 />
                 <div className="flex flex-col gap-3 py-2">
                     <p className="text-sm font-medium">

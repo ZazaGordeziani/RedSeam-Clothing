@@ -6,7 +6,6 @@ import { Eye } from '@/pages/auth/assets/eye'
 import { SlashEye } from '@/assets/slash-eye'
 import { LoginFormSchema } from '@/pages/auth/login/components/schema'
 import type { LoginFormValues } from '@/pages/auth/login/components/index.types'
-import type { AxiosError } from 'axios'
 import { useLogin } from '@/react-query/mutation'
 import type { LoginResponse } from '@/api/auth/index.types'
 import { httpClient } from '@/api'
@@ -38,7 +37,6 @@ export const Login = () => {
 
     const { mutate: handleLogin } = useLogin({
         onSuccess: (data: LoginResponse) => {
-            // console.log(data.user?.avatar)
             if (data.token) localStorage.setItem('token', data.token)
             if (data.user?.username)
                 localStorage.setItem('username', data.user.username)
@@ -54,26 +52,11 @@ export const Login = () => {
 
             navigate('/products')
         },
-        onError: (error: AxiosError) => {
-            const data = error.response?.data as {
-                message?: string
-                errors?: Record<string, string[]>
-            }
-            if (data?.errors) {
-                console.log('All backend validation errors:', data.errors) // 👈 logs entire object
-
-                Object.entries(data.errors).forEach(([field, messages]) => {
-                    setError(field as keyof LoginFormValues, {
-                        type: 'server',
-                        message: messages[0],
-                    })
-                })
-            } else if (data?.message) {
-                setError('password', {
-                    type: 'server',
-                    message: data.message,
-                })
-            }
+        onError: () => {
+            setError('password', {
+                type: 'server',
+                message: 'Invalid login credentials',
+            })
         },
     })
 
@@ -98,8 +81,8 @@ export const Login = () => {
                         render={({
                             field: { onChange, value },
                             fieldState: { error },
-                        }) => {
-                            return (
+                        }) => (
+                            <div className="flex flex-col">
                                 <div className="relative">
                                     <input
                                         onChange={onChange}
@@ -111,14 +94,14 @@ export const Login = () => {
                                         visible={!value}
                                         className="left-16 top-2"
                                     />
-                                    {error?.message ? (
-                                        <span className="text-red-400">
-                                            (error.message)
-                                        </span>
-                                    ) : null}
                                 </div>
-                            )
-                        }}
+                                {error?.type !== 'server' && error?.message && (
+                                    <span className="mt-3 block text-red-500">
+                                        {error.message}
+                                    </span>
+                                )}
+                            </div>
+                        )}
                     />
 
                     {/* <label className="lg:text-2xl">"auth-password"</label> */}
@@ -131,41 +114,45 @@ export const Login = () => {
                         }) => {
                             return (
                                 <>
-                                    <div className="relative">
-                                        <input
-                                            value={value}
-                                            onChange={onChange}
-                                            className="input-default"
-                                            placeholder="Password"
-                                            type={
-                                                showPassword
-                                                    ? 'text'
-                                                    : 'password'
-                                            }
-                                        />
-                                        <InputAsterisk
-                                            visible={!value}
-                                            className="left-[85px] top-2"
-                                        />{' '}
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                setShowPassword(!showPassword)
-                                            }
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-black"
-                                        >
-                                            {showPassword ? (
-                                                <Eye />
-                                            ) : (
-                                                <SlashEye />
-                                            )}
-                                        </button>
+                                    <div className="flex flex-col">
+                                        <div className="relative">
+                                            <input
+                                                value={value}
+                                                onChange={onChange}
+                                                className="input-default"
+                                                placeholder="Password"
+                                                type={
+                                                    showPassword
+                                                        ? 'text'
+                                                        : 'password'
+                                                }
+                                            />
+                                            <InputAsterisk
+                                                visible={!value}
+                                                className="left-[85px] top-2"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword,
+                                                    )
+                                                }
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 transform text-black"
+                                            >
+                                                {showPassword ? (
+                                                    <Eye />
+                                                ) : (
+                                                    <SlashEye />
+                                                )}
+                                            </button>
+                                        </div>
+                                        {error?.message && (
+                                            <span className="mt-3 block text-red-500">
+                                                {error.message}
+                                            </span>
+                                        )}
                                     </div>
-                                    {error?.message ? (
-                                        <span className="text-red-400">
-                                            {error.message}
-                                        </span>
-                                    ) : null}
                                 </>
                             )
                         }}

@@ -29,7 +29,7 @@ export const SingleProductPage = () => {
     const [selectedSize, setSelectedSize] = useState<string | null>(null)
     const [quantity, setQuantity] = useState<number>(1)
     // const [cartError, setCartError] = useState<string | null>(null)
-    const { refreshCart } = useCart()
+    const { refreshCart, openCart } = useCart()
 
     const { data, isLoading, isError, error } = useQuery<SingleProduct>({
         queryKey: ['single-product', id],
@@ -72,6 +72,7 @@ export const SingleProductPage = () => {
         try {
             await addToCart(data.id, selectedColor, selectedSize, quantity)
             refreshCart()
+            openCart()
         } catch (err) {
             console.error("Can't add the product", err)
         }
@@ -90,6 +91,7 @@ export const SingleProductPage = () => {
                                     src={img}
                                     alt={`image-${i}`}
                                     className="max-h-[160px] max-w-[120px] cursor-pointer rounded border border-gray-300 object-contain shadow-md"
+                                    loading="lazy"
                                     onClick={() => {
                                         setMainImage(img)
                                         if (
@@ -113,6 +115,7 @@ export const SingleProductPage = () => {
                                     borderRadius: '10px',
                                 }}
                                 className="h-[940px] w-full max-w-[700px] shadow-xl"
+                                loading="lazy"
                             />
                         </div>
                     </div>

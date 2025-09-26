@@ -3,9 +3,9 @@ import { CartLogo } from '@/assets/cart-logo'
 import { HeaderLogo } from '@/assets/header-logo-icon'
 import { LogInLogo } from '@/assets/log-in-logo'
 import { Cart } from '@/components/cart'
+import { useCart } from '@/hooks/useCart'
 import { userAtom } from '@/store/auth'
 import { useAtom } from 'jotai'
-import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 export const Header = () => {
@@ -13,7 +13,8 @@ export const Header = () => {
     const navigate = useNavigate()
 
     const [user, setUser] = useAtom(userAtom)
-    const [cartOpen, setCartOpen] = useState(false)
+    // const [cartOpen, setCartOpen] = useState(false)
+    const { openCart } = useCart()
 
     const isLoginPage = location.pathname === '/auth/login'
     const actionText = isLoginPage ? 'Register' : 'Log in'
@@ -43,10 +44,7 @@ export const Header = () => {
                 </div>
                 {user ? (
                     <div className="flex items-center gap-5">
-                        <div
-                            onClick={() => setCartOpen(true)}
-                            className="cursor-pointer"
-                        >
+                        <div onClick={openCart} className="cursor-pointer">
                             <CartLogo />
                         </div>
                         {user.avatar ? (
@@ -80,7 +78,8 @@ export const Header = () => {
                     </div>
                 )}
             </div>
-            <Cart isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+
+            <Cart />
         </>
     )
 }

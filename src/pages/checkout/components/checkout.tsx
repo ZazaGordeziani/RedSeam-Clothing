@@ -194,7 +194,7 @@ export const CheckOut = () => {
                                     <div className="flex flex-1 flex-col gap-2">
                                         <input
                                             type="text"
-                                            placeholder="Zip Code"
+                                            placeholder="Zip code"
                                             {...field}
                                             onFocus={() => setIsFocused('zip')}
                                             onBlur={() => {
