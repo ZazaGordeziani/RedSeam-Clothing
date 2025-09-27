@@ -220,12 +220,13 @@ export const CheckOut = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex w-full max-w-[460px] flex-col gap-4">
+                <div className="flex w-full max-w-[460px] flex-col justify-between">
                     <div className="flex flex-col gap-4">
                         {cartItems.length > 0 ? (
-                            <div className="flex flex-col gap-4">
+                            <div className="flex max-h-[300px] flex-col gap-6 overflow-y-auto">
                                 {cartItems.map((item) => (
                                     <CartItemCard
+                                        className="max-h-[134px]"
                                         key={`${item.id}-${item.color}-${item.size}`}
                                         item={item}
                                         updateQuantity={updateQuantity}
@@ -236,7 +237,7 @@ export const CheckOut = () => {
                         ) : (
                             <div className="flex flex-col items-center justify-center gap-2 p-4 text-center text-gray-500">
                                 <EmtpyCartLogo />
-                                <p className="py-6 text-xl font-medium">OOPS</p>
+                                <p className="py-6 text-xl font-medium">Oops</p>
                                 <p className="pb-5 text-base">
                                     You have not added item(s) in the cart
                                     yet...
@@ -244,25 +245,26 @@ export const CheckOut = () => {
                             </div>
                         )}
                     </div>
+                    <div>
+                        {cartItems.length > 0 && (
+                            <>
+                                <CartSummary
+                                    className=""
+                                    subtotal={subtotal}
+                                    delivery={delivery}
+                                    total={total}
+                                    showCheckoutButton={false}
+                                />
 
-                    {cartItems.length > 0 && (
-                        <>
-                            <CartSummary
-                                className="p-0"
-                                subtotal={subtotal}
-                                delivery={delivery}
-                                total={total}
-                                showCheckoutButton={false}
-                            />
-
-                            <button
-                                onClick={handleSubmit(onSubmit)}
-                                className="mt-4 w-full rounded-[10px] bg-orange-600 py-4 text-lg font-medium text-white"
-                            >
-                                Pay
-                            </button>
-                        </>
-                    )}
+                                <button
+                                    onClick={handleSubmit(onSubmit)}
+                                    className="mt-24 w-full rounded-[10px] bg-orange-600 py-4 text-lg font-medium text-white"
+                                >
+                                    Pay
+                                </button>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

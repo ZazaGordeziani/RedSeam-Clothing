@@ -14,6 +14,7 @@ export interface CartProps {
 }
 
 export interface CartItemProps {
+    className: string
     item: CartItem
     updateQuantity: (
         id: number,

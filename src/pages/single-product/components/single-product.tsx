@@ -35,7 +35,7 @@ export const SingleProductPage = () => {
         queryKey: ['single-product', id],
         queryFn: () => fetchProductById(id!),
     })
-    // console.log(data?.quantity)
+    console.log(data)
     useEffect(() => {
         if (!selectedColor) return
         const colorIndex =

@@ -60,6 +60,7 @@ export const Cart = () => {
                         <div className="flex flex-col gap-8">
                             {cartItems.map((item) => (
                                 <CartItemCard
+                                    className=""
                                     key={`${item.id}-${item.color}-${item.size}`}
                                     item={item}
                                     updateQuantity={updateQuantity}
