@@ -44,7 +44,9 @@ export const updateCartItemQuantity = async (
     })
 }
 
-export const getCartItems = async () => {
-    const res = await httpClient.get('/cart')
+export const getCartItems = async (token: string) => {
+    const res = await httpClient.get('/cart', {
+        headers: { Authorization: `Bearer ${token}` },
+    })
     return res.data || []
 }

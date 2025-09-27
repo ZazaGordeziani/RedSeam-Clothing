@@ -15,10 +15,10 @@ export const useCart = () => {
     const [isCartOpen, setIsCartOpen] = useAtom(cartOpenAtom)
     const user = useAtomValue(userAtom)
     const getCart = useCallback(async () => {
-        if (!user) return null
+        if (!user || !user.token) return null
         setLoading(true)
         try {
-            const data = await getCartItems()
+            const data = await getCartItems(user.token)
             setCartItems(data)
         } catch (err) {
             console.error('Failed to fetch cart:', err)

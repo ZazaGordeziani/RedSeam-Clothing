@@ -13,20 +13,26 @@ import {
     type RegisterFormValues,
 } from '@/pages/auth/register/components/index.types'
 import { InputAsterisk } from '@/components/ui/asterisk'
+import { userAtom } from '@/store/auth'
+import { useAtom } from 'jotai'
 
 export const Register = () => {
     const avatarRef = useRef<HTMLInputElement>(null)
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [showConfirmPassword, setShowConfirmPassword] =
         useState<boolean>(false)
+    const [, setUser] = useAtom(userAtom)
     const navigate = useNavigate()
 
-    const { control, trigger, setError, clearErrors, handleSubmit } =
+    const { control, trigger, setError, clearErrors, handleSubmit, watch } =
         useForm<RegisterFormValues>({
             resolver: zodResolver(SignUpFormSchema),
             defaultValues: RegisterFormDefaultValues,
             mode: 'onBlur',
         })
+
+    const usernameValue = watch('username')
+    const firstLetter = usernameValue ? usernameValue[0].toUpperCase() : null
 
     const { mutate: handleRegister } = useRegister({
         onError: (error) => {
@@ -46,7 +52,12 @@ export const Register = () => {
         },
         onSuccess: (data) => {
             console.log('Registration successful!', data)
-            navigate('/auth/login')
+            navigate('/')
+            setUser({
+                email: data.user.email,
+                token: data.token,
+                username: data.user.username,
+            })
         },
     })
 
@@ -136,6 +147,10 @@ export const Register = () => {
                                                 alt="Chosen avatar"
                                                 className="h-[100px] w-[100px] rounded-full"
                                             />
+                                        ) : firstLetter ? (
+                                            <div className="flex h-[100px] w-[100px] items-center justify-center rounded-full bg-gray-400 text-3xl font-semibold text-white">
+                                                {firstLetter}{' '}
+                                            </div>
                                         ) : (
                                             <UploadPhotoIcon />
                                         )}
