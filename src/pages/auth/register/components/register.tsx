@@ -97,36 +97,18 @@ export const Register = () => {
                                             message:
                                                 'File size must be less than 1MB',
                                         })
-                                        onChange(null)
                                         if (avatarRef.current)
                                             avatarRef.current.value = ''
                                         return
                                     }
                                     clearErrors('avatar')
                                     onChange(file)
-                                    await trigger('avatar') // optional: trigger validation again
                                 }
                             }
-
-                            // const handleFileChange = async (
-                            //     e: React.ChangeEvent<HTMLInputElement>,
-                            // ) => {
-                            //     const file = e.target.files?.[0]
-                            //     if (file) {
-                            //         onChange(file)
-                            //     }
-                            // }
 
                             const previewUrl = value
                                 ? URL.createObjectURL(value)
                                 : null
-
-                            // const handleKeyDown = (e: React.KeyboardEvent) => {
-                            //     if (e.key === 'Enter' || e.key === ' ') {
-                            //         e.preventDefault()
-                            //         handleClick()
-                            //     }
-                            // }
 
                             return (
                                 <>
@@ -199,6 +181,7 @@ export const Register = () => {
                             field: { onChange, value },
                             fieldState: { error },
                         }) => {
+                            const hasError = !!error
                             return (
                                 <div className="relative">
                                     <input
@@ -207,7 +190,7 @@ export const Register = () => {
                                         }}
                                         onChange={onChange}
                                         value={value}
-                                        className="input-default peer"
+                                        className={`input-default ${hasError ? 'border-orange-600' : ''}`}
                                         placeholder="Username"
                                     />
                                     <InputAsterisk
@@ -216,7 +199,7 @@ export const Register = () => {
                                     />
                                     <div className="mt-3">
                                         {error?.message ? (
-                                            <span className="text-red-400">
+                                            <span className="text-orange-600">
                                                 {error.message}
                                             </span>
                                         ) : null}
@@ -234,12 +217,13 @@ export const Register = () => {
                             field: { onChange, value },
                             fieldState: { error },
                         }) => {
+                            const hasError = !!error
                             return (
                                 <div className="relative">
                                     <input
                                         onChange={onChange}
                                         value={value}
-                                        className="input-default peer"
+                                        className={`input-default ${hasError ? 'border-orange-600' : ''}`}
                                         placeholder="E-mail"
                                     />
                                     <InputAsterisk
@@ -248,7 +232,7 @@ export const Register = () => {
                                     />
                                     <div className="mt-3">
                                         {error?.message ? (
-                                            <span className="text-red-400">
+                                            <span className="text-orange-600">
                                                 {error.message}
                                             </span>
                                         ) : null}
@@ -266,13 +250,14 @@ export const Register = () => {
                             field: { onChange, value },
                             fieldState: { error },
                         }) => {
+                            const hasError = !!error
                             return (
                                 <>
                                     <div className="relative">
                                         <input
                                             value={value}
                                             onChange={onChange}
-                                            className="input-default"
+                                            className={`input-default ${hasError ? 'border-orange-600' : ''}`}
                                             placeholder="Password"
                                             type={
                                                 showPassword
@@ -289,7 +274,7 @@ export const Register = () => {
                                             onClick={() =>
                                                 setShowPassword(!showPassword)
                                             }
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-black"
+                                            className="absolute right-3 top-5 -translate-y-1/2 transform text-black"
                                         >
                                             {showPassword ? (
                                                 <Eye />
@@ -299,7 +284,7 @@ export const Register = () => {
                                         </button>{' '}
                                         <div className="mt-3">
                                             {error?.message ? (
-                                                <span className="text-red-400">
+                                                <span className="text-orange-600">
                                                     {error.message}
                                                 </span>
                                             ) : null}
@@ -317,13 +302,14 @@ export const Register = () => {
                             field: { onChange, value },
                             fieldState: { error },
                         }) => {
+                            const hasError = !!error
                             return (
                                 <>
                                     <div className="relative">
                                         <input
                                             value={value}
                                             onChange={onChange}
-                                            className="input-default"
+                                            className={`input-default ${hasError ? 'border-orange-600' : ''}`}
                                             placeholder="Confirm password"
                                             type={
                                                 showConfirmPassword
@@ -342,7 +328,7 @@ export const Register = () => {
                                                     !showConfirmPassword,
                                                 )
                                             }
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-black"
+                                            className="absolute right-3 top-5 -translate-y-1/2 transform text-black"
                                         >
                                             {showConfirmPassword ? (
                                                 <Eye />
@@ -351,9 +337,11 @@ export const Register = () => {
                                             )}
                                         </button>
                                         {error?.message ? (
-                                            <span className="text-red-400">
-                                                {error.message}
-                                            </span>
+                                            <div className="mt-3">
+                                                <span className="text-orange-600">
+                                                    {error.message}
+                                                </span>
+                                            </div>
                                         ) : null}
                                     </div>
                                 </>

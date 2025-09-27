@@ -61,6 +61,10 @@ export const Login = () => {
             navigate(from, { replace: true })
         },
         onError: () => {
+            setError('email', {
+                type: 'server',
+                message: 'Invalid login credentials',
+            })
             setError('password', {
                 type: 'server',
                 message: 'Invalid login credentials',
@@ -89,27 +93,31 @@ export const Login = () => {
                         render={({
                             field: { onChange, value },
                             fieldState: { error },
-                        }) => (
-                            <div className="flex flex-col">
-                                <div className="relative">
-                                    <input
-                                        onChange={onChange}
-                                        value={value}
-                                        className="input-default"
-                                        placeholder="E-mail"
-                                    />
-                                    <InputAsterisk
-                                        visible={!value}
-                                        className="left-16 top-2"
-                                    />
+                        }) => {
+                            const hasError = !!error
+                            return (
+                                <div className="flex flex-col">
+                                    <div className="relative">
+                                        <input
+                                            onChange={onChange}
+                                            value={value}
+                                            className={`input-default ${hasError ? 'border-orange-600' : ''}`}
+                                            placeholder="E-mail"
+                                        />
+                                        <InputAsterisk
+                                            visible={!value}
+                                            className="left-16 top-2"
+                                        />
+                                    </div>
+                                    {error?.type !== 'server' &&
+                                        error?.message && (
+                                            <span className="mt-3 block text-red-500">
+                                                {error.message}
+                                            </span>
+                                        )}
                                 </div>
-                                {error?.type !== 'server' && error?.message && (
-                                    <span className="mt-3 block text-red-500">
-                                        {error.message}
-                                    </span>
-                                )}
-                            </div>
-                        )}
+                            )
+                        }}
                     />
 
                     {/* <label className="lg:text-2xl">"auth-password"</label> */}
@@ -120,6 +128,8 @@ export const Login = () => {
                             field: { onChange, value },
                             fieldState: { error },
                         }) => {
+                            const hasServerError = error?.type === 'server'
+
                             return (
                                 <>
                                     <div className="flex flex-col">
@@ -127,7 +137,7 @@ export const Login = () => {
                                             <input
                                                 value={value}
                                                 onChange={onChange}
-                                                className="input-default"
+                                                className={`input-default ${hasServerError ? 'border-orange-600' : ''}`}
                                                 placeholder="Password"
                                                 type={
                                                     showPassword
