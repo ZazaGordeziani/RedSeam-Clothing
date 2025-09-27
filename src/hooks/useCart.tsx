@@ -66,6 +66,14 @@ export const useCart = () => {
         }
     }
 
+    const clearCart = async () => {
+        // Option 1: Loop through all items and remove from backend
+        for (const item of cartItems) {
+            await removeItem(item.id, item.color, item.size)
+        }
+        setCartItems([]) // clear local state
+    }
+
     const subtotal = cartItems.reduce(
         (sum, item) => sum + item.price * item.quantity,
         0,
@@ -96,5 +104,6 @@ export const useCart = () => {
         isCartOpen,
         openCart,
         closeCart,
+        clearCart,
     }
 }
