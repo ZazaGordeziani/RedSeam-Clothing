@@ -54,6 +54,7 @@ export const Login = () => {
             setUser({
                 username: data.user?.username,
                 avatar: data.user?.avatar || undefined,
+                token: data.token,
             })
             httpClient.defaults.headers.common['Authorization'] =
                 `Bearer ${data.token}`

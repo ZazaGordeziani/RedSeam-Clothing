@@ -9,11 +9,14 @@ import { CheckoutFormSchema } from '@/pages/checkout/components/checkout-form-sc
 import { useState } from 'react'
 import { EmailLogo } from '@/pages/checkout/components/assets/email-logo'
 import EmtpyCartLogo from '@/components/cart/components/assets/empty-cart-logo'
+import CongratsModal from '@/components/base/congrats/components/assets/congrats-modal'
 
 type CheckoutFormValues = z.infer<typeof CheckoutFormSchema>
 
 export const CheckOut = () => {
     const [isFocused, setIsFocused] = useState<string | null>(null)
+    const [showCongrats, setShowCongrats] = useState(false)
+
     const { cartItems, updateQuantity, removeItem, subtotal, delivery, total } =
         useCart()
 
@@ -38,7 +41,7 @@ export const CheckOut = () => {
 
     const onSubmit = (data: CheckoutFormValues) => {
         console.log('Payment details:', data, cartItems)
-        alert('Payment processing...')
+        setShowCongrats(true)
     }
 
     return (
@@ -262,6 +265,11 @@ export const CheckOut = () => {
                                 >
                                     Pay
                                 </button>
+                                {showCongrats && (
+                                    <CongratsModal
+                                        onClose={() => setShowCongrats(false)}
+                                    />
+                                )}
                             </>
                         )}
                     </div>

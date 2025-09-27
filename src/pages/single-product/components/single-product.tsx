@@ -35,7 +35,7 @@ export const SingleProductPage = () => {
         queryKey: ['single-product', id],
         queryFn: () => fetchProductById(id!),
     })
-    console.log(data)
+    // console.log(data)
     useEffect(() => {
         if (!selectedColor) return
         const colorIndex =
@@ -69,9 +69,24 @@ export const SingleProductPage = () => {
 
         if (!data || !selectedColor || !selectedSize) return
 
+        // const newItem = {
+        //     id: data.id,
+        //     name: data.name,
+        //     price: data.price,
+        //     quantity,
+        //     color: selectedColor,
+        //     size: selectedSize,
+        //     cover_image: data.cover_image,
+        // }
+
+        console.log('added to cart:', data)
+
         try {
+            //optimistic update
+            // setCartItems((prev) => [...prev, newItem])
             await addToCart(data.id, selectedColor, selectedSize, quantity)
-            refreshCart()
+
+            await refreshCart()
             openCart()
         } catch (err) {
             console.error("Can't add the product", err)

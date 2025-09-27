@@ -44,7 +44,9 @@ export const updateCartItemQuantity = async (
     })
 }
 
-export const getCartItems = async (token: string) => {
+export const getCartItems = async () => {
+    const token = localStorage.getItem('token')
+    if (!token) return []
     const res = await httpClient.get('/cart', {
         headers: { Authorization: `Bearer ${token}` },
     })

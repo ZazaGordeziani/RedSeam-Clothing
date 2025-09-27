@@ -5,11 +5,13 @@ export const CheckoutFormSchema = z.object({
     name: z
         .string()
         .min(3, { message: 'Name must be at least 3 characters' })
-        .max(50, { message: 'Name should not be more then 50 characters' }),
+        .max(50, { message: 'Name should not be more then 50 characters' })
+        .regex(/^[A-Za-z]+$/, { message: 'Name must contain only letters' }),
     surname: z
         .string()
         .min(3, { message: 'Surname must be at least 3 characters' })
-        .max(50, { message: 'Surname should not be more then 50 characters' }),
+        .max(50, { message: 'Surname should not be more then 50 characters' })
+        .regex(/^[A-Za-z]+$/, { message: 'Surname must contain only letters' }),
     email: z
         .string()
         .min(3, { message: 'E-mail must be at least 3 characters' })

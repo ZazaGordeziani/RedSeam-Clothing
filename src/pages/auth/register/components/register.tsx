@@ -51,7 +51,7 @@ export const Register = () => {
             }
         },
         onSuccess: (data) => {
-            console.log('Registration successful!', data)
+            // console.log('Registration successful!', data)
             navigate('/')
             setUser({
                 email: data.user.email,

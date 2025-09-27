@@ -1,5 +1,5 @@
 // src/hooks/useCart.ts
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
 import { useState, useEffect, useCallback } from 'react'
 import {
     getCartItems,
@@ -7,25 +7,25 @@ import {
     updateCartItemQuantity,
 } from '@/components/cart/components/cart-api'
 import { cartAtom, cartOpenAtom } from '@/store/cart/cart'
-import { userAtom } from '@/store/auth'
+// import { userAtom } from '@/store/auth'
 
 export const useCart = () => {
     const [cartItems, setCartItems] = useAtom(cartAtom)
     const [loading, setLoading] = useState(false)
     const [isCartOpen, setIsCartOpen] = useAtom(cartOpenAtom)
-    const user = useAtomValue(userAtom)
+    // const user = useAtomValue(userAtom)
     const getCart = useCallback(async () => {
-        if (!user || !user.token) return null
+        // if (!user || !user.token) return null
         setLoading(true)
         try {
-            const data = await getCartItems(user.token)
+            const data = await getCartItems()
             setCartItems(data)
         } catch (err) {
             console.error('Failed to fetch cart:', err)
         } finally {
             setLoading(false)
         }
-    }, [setCartItems, user])
+    }, [setCartItems])
 
     const updateQuantity = async (
         id: number,
@@ -73,7 +73,9 @@ export const useCart = () => {
     const delivery = cartItems.length > 0 ? 5 : 0
     const total = subtotal + delivery
 
-    const refreshCart = () => getCart()
+    const refreshCart = () => {
+        return getCart()
+    }
     const openCart = () => setIsCartOpen(true)
     const closeCart = () => setIsCartOpen(false)
 
@@ -83,6 +85,7 @@ export const useCart = () => {
 
     return {
         cartItems,
+        setCartItems,
         loading,
         updateQuantity,
         removeItem,

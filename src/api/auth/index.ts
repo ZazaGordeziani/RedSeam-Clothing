@@ -22,9 +22,9 @@ export const register = async (form: RegisterFormValues) => {
     if (form.avatar) formData.append('avatar', form.avatar)
 
     //just for debugging
-    for (const [key, value] of formData.entries()) {
-        console.log(key, value)
-    }
+    // for (const [key, value] of formData.entries()) {
+    //     console.log(key, value)
+    // }
     const response = await httpClient.post(AUTH_ENDPONTS.REGISTER, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
     })
