@@ -1,10 +1,15 @@
 import { httpClient } from '@/api'
+import {
+    CartItem,
+    CartItemFromBackend,
+} from '@/components/cart/components/cart-types'
 
 export const addToCart = async (
     productId: number,
     color: string,
     size: string,
     quantity: number,
+    chosenImage: string,
 ) => {
     const token = localStorage.getItem('token')
 
@@ -12,7 +17,7 @@ export const addToCart = async (
     // console.log('Generated cartItemId:', cartItemId)
     const response = await httpClient.post(
         `/cart/products/${productId}`,
-        { color, size, quantity },
+        { color, size, quantity, cover_image: chosenImage },
         {
             headers: token ? { Authorization: `Bearer ${token}` } : {},
         },
@@ -44,11 +49,32 @@ export const updateCartItemQuantity = async (
     })
 }
 
-export const getCartItems = async () => {
+export const getCartItems = async (): Promise<CartItem[]> => {
     const token = localStorage.getItem('token')
     if (!token) return []
-    const res = await httpClient.get('/cart', {
+
+    const res = await httpClient.get<CartItemFromBackend[]>('/cart', {
         headers: { Authorization: `Bearer ${token}` },
     })
-    return res.data || []
+
+    const cartItemsFromBackend = res.data || []
+
+    const cartItems: CartItem[] = cartItemsFromBackend.map((item) => {
+        const colorIndex = item.available_colors.indexOf(item.color)
+        const displayImage =
+            colorIndex >= 0 ? item.images[colorIndex] : item.cover_image
+
+        return {
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            color: item.color,
+            size: item.size,
+            cover_image: item.cover_image,
+            displayImage,
+        }
+    })
+
+    return cartItems
 }

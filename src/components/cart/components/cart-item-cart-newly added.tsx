@@ -11,7 +11,7 @@ export const CartItemCard = ({
         <div className="flex items-center justify-between">
             <div className="flex gap-4">
                 <img
-                    src={item.cover_image}
+                    src={item.displayImage}
                     alt={item.name}
                     className="h-[134px] w-24 rounded border object-contain shadow"
                     loading="lazy"

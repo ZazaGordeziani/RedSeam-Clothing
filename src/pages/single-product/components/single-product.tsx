@@ -69,6 +69,9 @@ export const SingleProductPage = () => {
 
         if (!data || !selectedColor || !selectedSize) return
 
+        const colorIndex = data.available_colors!.indexOf(selectedColor)
+        const chosenImage = data.images[colorIndex]
+
         // const newItem = {
         //     id: data.id,
         //     name: data.name,
@@ -84,7 +87,14 @@ export const SingleProductPage = () => {
         try {
             //optimistic update
             // setCartItems((prev) => [...prev, newItem])
-            await addToCart(data.id, selectedColor, selectedSize, quantity)
+            await addToCart(
+                data.id,
+                selectedColor,
+                selectedSize,
+                quantity,
+                chosenImage,
+            )
+            console.log(chosenImage)
 
             await refreshCart()
             openCart()

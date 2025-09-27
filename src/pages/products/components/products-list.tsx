@@ -61,7 +61,7 @@ export const ProductsList = ({
 
     useEffect(() => {
         if (data) {
-            // console.log(data)
+            console.log(data)
         }
         if (!data?.meta) return
 
