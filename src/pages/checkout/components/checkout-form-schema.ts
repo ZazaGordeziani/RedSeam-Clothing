@@ -20,7 +20,7 @@ export const CheckoutFormSchema = z.object({
         .string()
         .min(5, { message: 'Address must be at least 5 characters' })
         .max(30, { message: 'Address should not be more then 30 characters' }),
-    zip: z
+    zip_code: z
         .string()
         .min(4, { message: 'Zip code must be at least 4 characters' })
         .max(10, { message: 'Zip code should not be more then 10 characters' }),

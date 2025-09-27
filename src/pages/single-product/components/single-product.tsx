@@ -94,7 +94,7 @@ export const SingleProductPage = () => {
                 quantity,
                 chosenImage,
             )
-            console.log(chosenImage)
+            // console.log(chosenImage)
 
             await refreshCart()
             openCart()

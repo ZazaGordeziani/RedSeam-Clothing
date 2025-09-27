@@ -1,10 +1,23 @@
 import { useState } from 'react'
-import CongratsModal from '@/components/base/congrats/components/assets/congrats-modal'
+import CongratsModal from '@/components/base/congrats/components/congrats-modal'
+import { useCart } from '@/hooks/useCart'
+// import { useNavigate } from 'react-router-dom'
 
 const Index = () => {
     const [show, setShow] = useState(true)
-
-    return <>{show && <CongratsModal onClose={() => setShow(false)} />}</>
+    const { clearCart } = useCart()
+    return (
+        <>
+            {show && (
+                <CongratsModal
+                    onClose={async () => {
+                        await clearCart()
+                        setShow(false)
+                    }}
+                />
+            )}
+        </>
+    )
 }
 
 export default Index

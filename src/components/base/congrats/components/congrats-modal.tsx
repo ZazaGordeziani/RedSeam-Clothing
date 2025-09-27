@@ -1,6 +1,5 @@
 import { CloseSign } from '@/assets/clolse-sign'
 import CheckSign from '@/components/base/congrats/components/assets/check-sign'
-import { useCart } from '@/hooks/useCart'
 import { useNavigate } from 'react-router-dom'
 
 type CongratsModalProps = {
@@ -9,11 +8,9 @@ type CongratsModalProps = {
 
 const CongratsModal = ({ onClose }: CongratsModalProps) => {
     const navigate = useNavigate()
-    const { clearCart } = useCart()
 
     const handleClose = async () => {
         console.log('cart cleared')
-        await clearCart()
         onClose()
         navigate('/')
     }

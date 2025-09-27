@@ -9,13 +9,18 @@ import { CheckoutFormSchema } from '@/pages/checkout/components/checkout-form-sc
 import { useState } from 'react'
 import { EmailLogo } from '@/pages/checkout/components/assets/email-logo'
 import EmtpyCartLogo from '@/components/cart/components/assets/empty-cart-logo'
-import CongratsModal from '@/components/base/congrats/components/assets/congrats-modal'
+import CongratsModal from '@/components/base/congrats/components/congrats-modal'
+
+import type { AxiosError } from 'axios'
+import { httpClient } from '@/api'
 
 type CheckoutFormValues = z.infer<typeof CheckoutFormSchema>
 
 export const CheckOut = () => {
     const [isFocused, setIsFocused] = useState<string | null>(null)
     const [showCongrats, setShowCongrats] = useState(false)
+
+    const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
     const { cartItems, updateQuantity, removeItem, subtotal, delivery, total } =
         useCart()
@@ -34,14 +39,36 @@ export const CheckOut = () => {
             surname: '',
             email: localStorage.getItem('email') || '',
             address: '',
-            zip: '',
+            zip_code: '',
         },
         mode: 'onBlur',
     })
 
-    const onSubmit = (data: CheckoutFormValues) => {
-        console.log('Payment details:', data, cartItems)
-        setShowCongrats(true)
+    const onSubmit = async (data: CheckoutFormValues) => {
+        setErrorMessage(null) // <-- clear previous errors
+
+        try {
+            const token = localStorage.getItem('token')
+            const res = await httpClient.post(
+                '/cart/checkout',
+                { ...data, cart: cartItems },
+                { headers: { Authorization: `Bearer ${token}` } },
+            )
+
+            if (res.status === 200) {
+                setShowCongrats(true)
+            } else {
+                setErrorMessage(res.data?.message || 'Something went wrong.')
+            }
+        } catch (err) {
+            const axiosError = err as AxiosError<{ message: string }>
+
+            if (axiosError.response?.data?.message) {
+                setErrorMessage(axiosError.response.data.message)
+            } else {
+                setErrorMessage('Something went wrong. Please try again.')
+            }
+        }
     }
 
     return (
@@ -191,7 +218,7 @@ export const CheckOut = () => {
                             />
 
                             <Controller
-                                name="zip"
+                                name="zip_code"
                                 control={control}
                                 render={({ field }) => (
                                     <div className="flex flex-1 flex-col gap-2">
@@ -205,16 +232,16 @@ export const CheckOut = () => {
                                                 field.onBlur()
                                             }}
                                             className={`${checkoutInputStyles} ${
-                                                errors.zip
+                                                errors.zip_code
                                                     ? 'border-red-500'
                                                     : isFocused === 'zip'
                                                       ? 'border-orange-500'
                                                       : 'border-neutral-200'
                                             }`}
                                         />
-                                        {errors.zip && (
+                                        {errors.zip_code && (
                                             <span className="text-sm text-red-500">
-                                                {errors.zip.message}
+                                                {errors.zip_code.message}
                                             </span>
                                         )}
                                     </div>
@@ -265,6 +292,13 @@ export const CheckOut = () => {
                                 >
                                     Pay
                                 </button>
+
+                                {errorMessage && (
+                                    <p className="mt-4 text-xl text-orange-600">
+                                        {errorMessage}
+                                    </p>
+                                )}
+
                                 {showCongrats && (
                                     <CongratsModal
                                         onClose={() => setShowCongrats(false)}
