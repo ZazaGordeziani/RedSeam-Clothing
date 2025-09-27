@@ -4,6 +4,7 @@ import { useAtom } from 'jotai'
 import { lazy, Suspense, useEffect } from 'react'
 import { userAtom } from '@/store/auth'
 import { BounceLoader } from 'react-spinners'
+import AuthGuard from '@/routh-guards/auth-guard'
 
 function App() {
     const [, setUser] = useAtom(userAtom)
@@ -44,10 +45,14 @@ function App() {
                         path="products/:id"
                         element={<LazySingleProductPage />}
                     />
-
-                    <Route path="auth" element={<LazyAuthPage />}>
-                        <Route path="login" element={<LazyLoginPage />} />
-                        <Route path="register" element={<LazyRegisterPage />} />
+                    <Route element={<AuthGuard />}>
+                        <Route path="auth" element={<LazyAuthPage />}>
+                            <Route path="login" element={<LazyLoginPage />} />
+                            <Route
+                                path="register"
+                                element={<LazyRegisterPage />}
+                            />
+                        </Route>
                     </Route>
                     <Route path="/checkout" element={<LazyCheckOutPage />} />
                 </Route>

@@ -214,11 +214,13 @@ export const Register = () => {
                                         visible={!value}
                                         className="left-[89px] top-2"
                                     />
-                                    {error?.message ? (
-                                        <span className="text-red-400">
-                                            {error.message}
-                                        </span>
-                                    ) : null}
+                                    <div className="mt-3">
+                                        {error?.message ? (
+                                            <span className="text-red-400">
+                                                {error.message}
+                                            </span>
+                                        ) : null}
+                                    </div>
                                 </div>
                             )
                         }}
@@ -244,11 +246,13 @@ export const Register = () => {
                                         visible={!value}
                                         className="left-16 top-2"
                                     />
-                                    {error?.message ? (
-                                        <span className="text-red-400">
-                                            {error.message}
-                                        </span>
-                                    ) : null}
+                                    <div className="mt-3">
+                                        {error?.message ? (
+                                            <span className="text-red-400">
+                                                {error.message}
+                                            </span>
+                                        ) : null}
+                                    </div>
                                 </div>
                             )
                         }}
@@ -292,13 +296,15 @@ export const Register = () => {
                                             ) : (
                                                 <SlashEye />
                                             )}
-                                        </button>
+                                        </button>{' '}
+                                        <div className="mt-3">
+                                            {error?.message ? (
+                                                <span className="text-red-400">
+                                                    {error.message}
+                                                </span>
+                                            ) : null}
+                                        </div>
                                     </div>
-                                    {error?.message ? (
-                                        <span className="text-red-400">
-                                            {error.message}
-                                        </span>
-                                    ) : null}
                                 </>
                             )
                         }}
@@ -344,12 +350,12 @@ export const Register = () => {
                                                 <SlashEye />
                                             )}
                                         </button>
+                                        {error?.message ? (
+                                            <span className="text-red-400">
+                                                {error.message}
+                                            </span>
+                                        ) : null}
                                     </div>
-                                    {error?.message ? (
-                                        <span className="text-red-400">
-                                            {error.message}
-                                        </span>
-                                    ) : null}
                                 </>
                             )
                         }}

@@ -17,7 +17,7 @@ const Auth = () => {
 
     return (
         <div className="flex w-screen">
-            <div className="w-1/2">
+            <div className="w-1/2 max-w-[954px]">
                 <HeroPhoto />
             </div>
             <div

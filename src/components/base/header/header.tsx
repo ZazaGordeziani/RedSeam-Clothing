@@ -69,7 +69,9 @@ export const Header = () => {
                 ) : (
                     <div
                         className="flex h-5 cursor-pointer items-center gap-2"
-                        onClick={() => navigate(actionPath)}
+                        onClick={() =>
+                            navigate(actionPath, { state: { from: location } })
+                        }
                     >
                         <LogInLogo />
                         <span className="font-poppins text-xs font-medium text-gray-900">

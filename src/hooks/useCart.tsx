@@ -1,5 +1,5 @@
 // src/hooks/useCart.ts
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useState, useEffect, useCallback } from 'react'
 import {
     getCartItems,
@@ -7,13 +7,15 @@ import {
     updateCartItemQuantity,
 } from '@/components/cart/components/cart-api'
 import { cartAtom, cartOpenAtom } from '@/store/cart/cart'
+import { userAtom } from '@/store/auth'
 
 export const useCart = () => {
     const [cartItems, setCartItems] = useAtom(cartAtom)
     const [loading, setLoading] = useState(false)
     const [isCartOpen, setIsCartOpen] = useAtom(cartOpenAtom)
-
+    const user = useAtomValue(userAtom)
     const getCart = useCallback(async () => {
+        if (!user) return null
         setLoading(true)
         try {
             const data = await getCartItems()
@@ -23,7 +25,7 @@ export const useCart = () => {
         } finally {
             setLoading(false)
         }
-    }, [setCartItems])
+    }, [setCartItems, user])
 
     const updateQuantity = async (
         id: number,

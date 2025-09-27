@@ -5,7 +5,6 @@ import type { RegisterFormValues } from '@/pages/auth/register/components/index.
 
 export const login = async ({ payload }: LoginPayload) => {
     const response = await httpClient.post(AUTH_ENDPONTS.LOGIN, payload)
-    console.log('Login response:', response.data)
     return response.data
 }
 

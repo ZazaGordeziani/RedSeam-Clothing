@@ -10,7 +10,7 @@ export const SignUpFormSchema = z
             .nullable()
             .optional(),
         username: z.string().min(3, {
-            message: 'username should consist at least 3 characters',
+            message: 'Username should consist at least 3 characters',
         }),
 
         email: z
@@ -18,7 +18,7 @@ export const SignUpFormSchema = z
             .email({ message: 'Invalid E-mail' })
             .min(3, { message: 'email must be at least 3 characters' }),
         password: z.string().min(3, {
-            message: 'invalid password',
+            message: 'Invalid password, should be at least 3 characters',
         }),
 
         confirmPassword: z.string(),

@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Eye } from '@/pages/auth/assets/eye'
 import { SlashEye } from '@/assets/slash-eye'
 import { LoginFormSchema } from '@/pages/auth/login/components/schema'
@@ -17,7 +17,15 @@ export const Login = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [, setUser] = useAtom(userAtom)
 
+    type LocationState = {
+        from?: Location
+    }
+
     const navigate = useNavigate()
+    const location = useLocation() as { state: LocationState }
+    const from = location.state?.from
+        ? location.state?.from?.pathname + location.state?.from?.search
+        : '/'
 
     const LoginFormDefaultValues = {
         email: '',
@@ -50,7 +58,7 @@ export const Login = () => {
             httpClient.defaults.headers.common['Authorization'] =
                 `Bearer ${data.token}`
 
-            navigate('/products')
+            navigate(from, { replace: true })
         },
         onError: () => {
             setError('password', {
