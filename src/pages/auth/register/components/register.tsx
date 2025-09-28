@@ -58,6 +58,9 @@ export const Register = () => {
                 token: data.token,
                 username: data.user.username,
             })
+            localStorage.setItem('email', data.user.email)
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('username', data.user.username)
         },
     })
 
