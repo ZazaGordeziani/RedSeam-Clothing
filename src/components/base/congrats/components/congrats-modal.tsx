@@ -1,5 +1,6 @@
 import { CloseSign } from '@/assets/clolse-sign'
 import CheckSign from '@/components/base/congrats/components/assets/check-sign'
+import { useCart } from '@/hooks/useCart'
 import { useNavigate } from 'react-router-dom'
 
 type CongratsModalProps = {
@@ -8,11 +9,12 @@ type CongratsModalProps = {
 
 const CongratsModal = ({ onClose }: CongratsModalProps) => {
     const navigate = useNavigate()
+    const { clearCart } = useCart()
 
     const handleClose = async () => {
+        await clearCart()
         console.log('cart cleared')
         onClose()
-        navigate('/')
     }
 
     return (
@@ -20,7 +22,7 @@ const CongratsModal = ({ onClose }: CongratsModalProps) => {
             <div className="relative h-[700px] w-[900px] bg-white p-6 shadow-lg">
                 <button
                     className="absolute right-8 top-8"
-                    onClick={handleClose}
+                    onClick={async () => await handleClose()}
                 >
                     <CloseSign />
                 </button>
@@ -37,7 +39,10 @@ const CongratsModal = ({ onClose }: CongratsModalProps) => {
                     </div>
                     <button
                         className="h- mt-5 w-[214px] rounded-[10px] bg-orange-600 text-white"
-                        onClick={handleClose}
+                        onClick={async () => {
+                            await handleClose()
+                            navigate('/')
+                        }}
                     >
                         <p className="px-5 py-[10px] font-poppins text-sm font-normal">
                             Continue shopping

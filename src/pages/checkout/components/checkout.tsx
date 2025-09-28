@@ -45,7 +45,7 @@ export const CheckOut = () => {
     })
 
     const onSubmit = async (data: CheckoutFormValues) => {
-        setErrorMessage(null) // <-- clear previous errors
+        setErrorMessage(null)
 
         try {
             const token = localStorage.getItem('token')
@@ -298,15 +298,12 @@ export const CheckOut = () => {
                                         {errorMessage}
                                     </p>
                                 )}
-
-                                {showCongrats && (
-                                    <CongratsModal
-                                        onClose={() => setShowCongrats(false)}
-                                    />
-                                )}
                             </>
                         )}
                     </div>
+                    {showCongrats && (
+                        <CongratsModal onClose={() => setShowCongrats(false)} />
+                    )}
                 </div>
             </div>
         </div>

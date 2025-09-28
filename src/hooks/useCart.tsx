@@ -7,15 +7,12 @@ import {
     updateCartItemQuantity,
 } from '@/components/cart/components/cart-api'
 import { cartAtom, cartOpenAtom } from '@/store/cart/cart'
-// import { userAtom } from '@/store/auth'
 
 export const useCart = () => {
     const [cartItems, setCartItems] = useAtom(cartAtom)
     const [loading, setLoading] = useState(false)
     const [isCartOpen, setIsCartOpen] = useAtom(cartOpenAtom)
-    // const user = useAtomValue(userAtom)
     const getCart = useCallback(async () => {
-        // if (!user || !user.token) return null
         setLoading(true)
         try {
             const data = await getCartItems()
@@ -67,13 +64,13 @@ export const useCart = () => {
     }
 
     const clearCart = async () => {
-        // Option 1: Loop through all items and remove from backend
-        for (const item of cartItems) {
-            await removeItem(item.id, item.color, item.size)
-        }
-        setCartItems([]) // clear local state
+        await Promise.all(
+            cartItems.map((item) =>
+                removeCartItem(item.id, item.color, item.size),
+            ),
+        )
+        setCartItems([])
     }
-
     const subtotal = cartItems.reduce(
         (sum, item) => sum + item.price * item.quantity,
         0,
