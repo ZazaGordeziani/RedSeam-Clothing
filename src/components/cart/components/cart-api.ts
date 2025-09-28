@@ -13,8 +13,6 @@ export const addToCart = async (
 ) => {
     const token = localStorage.getItem('token')
 
-    // const cartItemId = `${productId}-${color}-${size}`
-    // console.log('Generated cartItemId:', cartItemId)
     const response = await httpClient.post(
         `/cart/products/${productId}`,
         { color, size, quantity, cover_image: chosenImage },

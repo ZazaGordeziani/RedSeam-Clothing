@@ -1,4 +1,3 @@
-// src/hooks/useCart.ts
 import { useAtom } from 'jotai'
 import { useState, useEffect, useCallback } from 'react'
 import {

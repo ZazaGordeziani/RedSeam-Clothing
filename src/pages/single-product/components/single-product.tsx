@@ -20,22 +20,18 @@ export const SingleProductPage = () => {
     const user = useAtomValue(userAtom)
     const token = localStorage.getItem('token')
 
-    // console.log('Token from localStorage:', token)
-    // console.log('Is user logged in?', !!user)
     const isAuthenticated = !!user && !!token
 
     const [mainImage, setMainImage] = useState<string | null>(null)
     const [selectedColor, setSelectedColor] = useState<string | null>(null)
     const [selectedSize, setSelectedSize] = useState<string | null>(null)
     const [quantity, setQuantity] = useState<number>(1)
-    // const [cartError, setCartError] = useState<string | null>(null)
     const { refreshCart, openCart } = useCart()
 
     const { data, isLoading, isError, error } = useQuery<SingleProduct>({
         queryKey: ['single-product', id],
         queryFn: () => fetchProductById(id!),
     })
-    // console.log(data)
     useEffect(() => {
         if (!selectedColor) return
         const colorIndex =
@@ -72,21 +68,7 @@ export const SingleProductPage = () => {
         const colorIndex = data.available_colors!.indexOf(selectedColor)
         const chosenImage = data.images[colorIndex]
 
-        // const newItem = {
-        //     id: data.id,
-        //     name: data.name,
-        //     price: data.price,
-        //     quantity,
-        //     color: selectedColor,
-        //     size: selectedSize,
-        //     cover_image: data.cover_image,
-        // }
-
-        console.log('added to cart:', data)
-
         try {
-            //optimistic update
-            // setCartItems((prev) => [...prev, newItem])
             await addToCart(
                 data.id,
                 selectedColor,
@@ -94,7 +76,6 @@ export const SingleProductPage = () => {
                 quantity,
                 chosenImage,
             )
-            // console.log(chosenImage)
 
             await refreshCart()
             openCart()

@@ -5,7 +5,6 @@ import { Outlet } from 'react-router-dom'
 const DefaultLayout = () => {
     return (
         <div className="min-h-screen bg-white">
-            {/* Outer container centers content and sets max width */}
             <div className="mx-auto w-full max-w-[1920px]">
                 <Header />
                 <PageContainer>

@@ -74,7 +74,6 @@ export const Login = () => {
     })
 
     const onSubmit = (formData: LoginFormValues) => {
-        // console.log('loggedin from buton')
         handleLogin(formData)
     }
     return (
@@ -87,7 +86,6 @@ export const Login = () => {
                 className="max-h-[518px] max-w-[554px]"
             >
                 <div className="flex flex-col gap-6">
-                    {/* <label className="lg:text-2xl">"E-mail"</label> */}
                     <Controller
                         name="email"
                         control={control}
@@ -121,7 +119,6 @@ export const Login = () => {
                         }}
                     />
 
-                    {/* <label className="lg:text-2xl">"auth-password"</label> */}
                     <Controller
                         name="password"
                         control={control}
@@ -178,17 +175,9 @@ export const Login = () => {
                     />
 
                     <div className="mt-5 flex flex-col justify-center gap-6">
-                        <button
-                            // onClick={handleSubmit(onSubmit)}
-                            className="flex h-[41px] items-center justify-center rounded-[10px] bg-orange-600 font-poppins text-[14px] font-normal leading-[100%] text-white"
-                            // disabled={isPending}
-                        >
+                        <button className="flex h-[41px] items-center justify-center rounded-[10px] bg-orange-600 font-poppins text-[14px] font-normal leading-[100%] text-white">
                             Log in
-                            {/* {isPending ? <Spinner /> : t('sign-up-submit')} */}
                         </button>
-                        {/* {emailSentMessage && ( */}
-                        {/* <p className="">{emailSentMessage}</p> */}
-                        {/* )} */}
                         <div className="flex items-center justify-center gap-2">
                             <p className="font-poppins text-sm font-normal leading-[100%] tracking-[0px] text-zinc-700">
                                 Not a member?

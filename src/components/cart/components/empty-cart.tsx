@@ -1,4 +1,3 @@
-// src/components/cart/EmptyCart.tsx
 import EmtpyCartLogo from './assets/empty-cart-logo'
 import { useNavigate } from 'react-router-dom'
 

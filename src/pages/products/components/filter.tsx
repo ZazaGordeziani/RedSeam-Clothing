@@ -100,10 +100,6 @@ export const FilterDropdown = ({
                                         setFromValue(e.target.value)
                                     }
                                 />
-                                {/* <InputAsterisk
-                                    visible={!fromValue}
-                                    className="left-[48px] top-1"
-                                /> */}
                             </div>
                             <div className="relative">
                                 <input
@@ -113,10 +109,6 @@ export const FilterDropdown = ({
                                     value={toValue}
                                     onChange={(e) => setToValue(e.target.value)}
                                 />
-                                {/* <InputAsterisk
-                                    visible={!toValue}
-                                    className="left-[30px] top-1"
-                                /> */}
                             </div>
                         </div>
 

@@ -132,12 +132,7 @@ export const Register = () => {
                                     <div
                                         className="mb-5 flex h-[100px] w-[215px] cursor-pointer flex-row items-center gap-4"
                                         onClick={handleClick}
-                                        // onKeyDown={handleKeyDown}
                                         role="button"
-                                        // tabIndex={0}
-                                        // style={{
-                                        //     cursor: 'pointer',
-                                        // }}
                                         aria-label="Upload avatar"
                                     >
                                         {previewUrl ? (
@@ -223,7 +218,6 @@ export const Register = () => {
                         }}
                     />
 
-                    {/* <label className="lg:text-2xl">"E-mail"</label> */}
                     <Controller
                         name="email"
                         control={control}
@@ -256,7 +250,6 @@ export const Register = () => {
                         }}
                     />
 
-                    {/* <label className="lg:text-2xl">"auth-password"</label> */}
                     <Controller
                         name="password"
                         control={control}
@@ -366,14 +359,10 @@ export const Register = () => {
                         <button
                             type="submit"
                             className="flex h-[41px] items-center justify-center rounded-[10px] bg-orange-600 font-poppins text-[14px] font-normal leading-[100%] text-white"
-                            // disabled={isPending}
                         >
                             Register
-                            {/* {isPending ? <Spinner /> : t('sign-up-submit')} */}
                         </button>
-                        {/* {emailSentMessage && ( */}
-                        {/* <p className="">{emailSentMessage}</p> */}
-                        {/* )} */}
+
                         <div className="flex items-center justify-center gap-2">
                             <p className="font-poppins text-sm font-normal leading-[100%] tracking-[0px] text-zinc-700">
                                 Already member?

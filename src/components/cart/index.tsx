@@ -1,13 +1,11 @@
-// src/components/cart/Cart.tsx
 import { createPortal } from 'react-dom'
 import { CloseSign } from '@/assets/clolse-sign'
 
-import { EmptyCart } from '@/components/cart/components/empty-cart-newly-added'
+import { EmptyCart } from '@/components/cart/components/empty-cart'
 import { useCart } from '@/hooks/useCart'
-// import type { CartProps } from '@/components/cart/components/cart-types'
 import { BounceLoader } from 'react-spinners'
-import { CartItemCard } from '@/components/cart/components/cart-item-cart-newly added'
-import { CartSummary } from '@/components/cart/components/cart-summary-newly-added'
+import { CartItemCard } from '@/components/cart/components/cart-item-cart'
+import { CartSummary } from '@/components/cart/components/cart-summary'
 
 export const Cart = () => {
     const {

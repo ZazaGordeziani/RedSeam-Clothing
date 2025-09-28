@@ -60,9 +60,6 @@ export const ProductsList = ({
     const { data, isLoading, isError, error } = useQuery(queryOptions)
 
     useEffect(() => {
-        if (data) {
-            console.log(data)
-        }
         if (!data?.meta) return
 
         if (

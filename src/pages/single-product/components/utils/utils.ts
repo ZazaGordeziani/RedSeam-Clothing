@@ -24,7 +24,6 @@ export interface SingleProduct {
 
 export const fetchProductById = async (id: string): Promise<SingleProduct> => {
     const response = await httpClient.get<SingleProduct>(`/products/${id}`)
-    // console.log('backend response', response.data)
     return response.data
 }
 export interface BackendError {

@@ -1,4 +1,3 @@
-// store/auth.ts
 import { atom } from 'jotai'
 
 export type User = {

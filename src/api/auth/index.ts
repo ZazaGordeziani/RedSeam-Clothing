@@ -8,11 +8,6 @@ export const login = async ({ payload }: LoginPayload) => {
     return response.data
 }
 
-// export const register = (payload: RegisterPayload) => {
-//     return httpClient
-//         .post(AUTH_ENDPONTS.REGISTER, payload)
-//         .then((res) => res.data)
-// }
 export const register = async (form: RegisterFormValues) => {
     const formData = new FormData()
     formData.append('username', form.username)
@@ -21,10 +16,6 @@ export const register = async (form: RegisterFormValues) => {
     formData.append('password_confirmation', form.confirmPassword)
     if (form.avatar) formData.append('avatar', form.avatar)
 
-    //just for debugging
-    // for (const [key, value] of formData.entries()) {
-    //     console.log(key, value)
-    // }
     const response = await httpClient.post(AUTH_ENDPONTS.REGISTER, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
     })

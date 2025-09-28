@@ -1,69 +1,50 @@
-# React + TypeScript + Vite
+# RedSeam Clothing
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
 
-Currently, two official plugins are available:
+RedSeam Clothing is an online shopping store that allows users to:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Filter products by price.
+- Sort products by three categories: newest first, price low to high, and price high to low.
+- Add chosen products (based on size and color) to the cart and complete purchases (authorized users only).
+- navigate through the pages.
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- User registration and login (token stored in local storage).
+- Successful registration automatically logs the user in.
+- Avatar upload during registration; if none is provided, the first letter of the username is displayed.
+- Add, update, and remove items from the cart.
+- Filter and sort products based on user preference.
+- Pagination on the products page.
+- Modal for successful purchase (Congrats modal).
+- Loading states before displaying page content.
+- On checkout, the e-mail field is pre-filled from localStorage.
 
-```js
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
+## Tech Stack
 
-            // Remove tseslint.configs.recommended and replace with this
-            tseslint.configs.recommendedTypeChecked,
-            // Alternatively, use this for stricter rules
-            tseslint.configs.strictTypeChecked,
-            // Optionally, add this for stylistic rules
-            tseslint.configs.stylisticTypeChecked,
+- Frontend: React, TypeScript, TailwindCSS
+- State Management: Jotai, React Hook Form
+- Validation: Zod, React Hook Form
+- Routing: React Router DOM
+- API Calls: Axios (`httpClient`)
+- Optimized for 1920x1080 screen resolution
+- husky installed so the following orders run after commit, to avoid chaotic code
+    - yarn ts-check
+    - yarn lint
+    - yarn prettier
 
-            // Other configs...
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-])
-```
+## How to Use
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. Clone the repository:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    git clone https://github.com/ZazaGordeziani/RedSeam-Clothing
 
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
-            // Enable lint rules for React
-            reactX.configs['recommended-typescript'],
-            // Enable lint rules for React DOM
-            reactDom.configs.recommended,
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-])
-```
+    install yarn by just typing yarn in terminal and hit enter
+
+    create .env file and set VITE_API_BASE_URL based on the following endpoint
+    https://api.redseam.redberryinternship.ge/api
+
+    yarn dev - to start the project
+
+Vercel link to see the completed project - https://red-seam-clothing-eight.vercel.app/

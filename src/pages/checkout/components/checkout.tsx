@@ -1,7 +1,6 @@
-// src/pages/checkout/components/Checkout.tsx
 import { useCart } from '@/hooks/useCart'
-import { CartItemCard } from '@/components/cart/components/cart-item-cart-newly added'
-import { CartSummary } from '@/components/cart/components/cart-summary-newly-added'
+import { CartItemCard } from '@/components/cart/components/cart-item-cart'
+import { CartSummary } from '@/components/cart/components/cart-summary'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, Controller } from 'react-hook-form'
 import type { z } from 'zod'

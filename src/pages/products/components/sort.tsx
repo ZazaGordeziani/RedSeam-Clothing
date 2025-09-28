@@ -19,7 +19,6 @@ export const SortDropdown = ({
     isOpen,
     onToggle,
 }: SortDropdownProps) => {
-    // const [open, setOpen] = useState(false)
     const [selectedLabel, setSelectedLabel] = useState<string>('Sort by')
     const containerRef = useRef<HTMLDivElement>(null)
 

@@ -1,4 +1,3 @@
-// src/pages/checkout/components/schema.ts
 import { z } from 'zod'
 
 export const CheckoutFormSchema = z.object({

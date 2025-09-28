@@ -30,7 +30,7 @@ export const Products = () => {
         const fromParam = searchParams.get('filter[price_from]')
         const toParam = searchParams.get('filter[price_to]')
         const sortParam = searchParams.get('sort')
-        const pageParam = searchParams.get('page') // NEW: get page from URL
+        const pageParam = searchParams.get('page')
 
         setPriceFrom(fromParam ? Number(fromParam) : null)
         setPriceTo(toParam ? Number(toParam) : null)
@@ -76,7 +76,6 @@ export const Products = () => {
 
         setSearchParams(params)
     }
-    // console.log('totalPages:', totalPages)
 
     return (
         <div className="flex w-full max-w-[1920px] flex-col items-center">

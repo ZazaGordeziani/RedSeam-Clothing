@@ -13,7 +13,6 @@ export const Header = () => {
     const navigate = useNavigate()
 
     const [user, setUser] = useAtom(userAtom)
-    // const [cartOpen, setCartOpen] = useState(false)
     const { openCart } = useCart()
 
     const isLoginPage = location.pathname === '/auth/login'

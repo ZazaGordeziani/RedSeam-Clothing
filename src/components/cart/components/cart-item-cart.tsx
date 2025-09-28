@@ -1,4 +1,3 @@
-// src/components/cart/CartItemCard.tsx
 import type { CartItemProps } from '@/components/cart/components/cart-types'
 import { formatProductName } from '@/pages/products/utils/utils'
 

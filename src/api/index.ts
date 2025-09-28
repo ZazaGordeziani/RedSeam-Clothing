@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const baseURL = import.meta.env.VITE_BASE_URL
-// console.log('VITE_BASE_URL:', import.meta.env.VITE_BASE_URL)
 
 if (!baseURL) {
     throw new Error('VITE_BASE_URL is not defined in .env')
@@ -17,7 +16,6 @@ export const httpClient = axios.create({
 
 httpClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('token')
-    // console.log('Interceptor Token:', token)
 
     if (token) {
         config.headers.Authorization = `Bearer ${token}`
