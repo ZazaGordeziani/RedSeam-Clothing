@@ -4,21 +4,22 @@ import { useCart } from '@/hooks/useCart'
 import { useNavigate } from 'react-router-dom'
 
 type CongratsModalProps = {
+    onFinish?: () => void
     onClose: () => void
 }
 
-const CongratsModal = ({ onClose }: CongratsModalProps) => {
+const CongratsModal = ({ onClose, onFinish }: CongratsModalProps) => {
     const navigate = useNavigate()
     const { clearCart } = useCart()
 
     const handleClose = async () => {
         await clearCart()
-        console.log('cart cleared')
         onClose()
+        if (onFinish) onFinish()
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
             <div className="relative h-[700px] w-[900px] bg-white p-6 shadow-lg">
                 <button
                     className="absolute right-8 top-8"

@@ -30,7 +30,7 @@ export const Cart = () => {
 
     return createPortal(
         <div className="fixed inset-0 z-50 flex">
-            <div className="fixed inset-0 bg-black/40" onClick={closeCart} />
+            <div className="fixed inset-0 bg-black/30" onClick={closeCart} />
 
             <div
                 className={`fixed inset-y-0 right-0 z-50 flex w-[540px] transform flex-col bg-white shadow-lg transition-transform duration-300 ${

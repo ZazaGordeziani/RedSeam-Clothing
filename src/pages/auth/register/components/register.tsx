@@ -51,7 +51,6 @@ export const Register = () => {
             }
         },
         onSuccess: (data) => {
-            // console.log('Registration successful!', data)
             navigate('/')
             setUser({
                 email: data.user.email,
@@ -65,9 +64,6 @@ export const Register = () => {
     })
 
     const onSubmit = (registerPayload: RegisterFormValues) => {
-        // console.log(import.meta.env.VITE_BASE_URL)
-
-        // console.log(registerPayload)
         handleRegister(registerPayload)
     }
 

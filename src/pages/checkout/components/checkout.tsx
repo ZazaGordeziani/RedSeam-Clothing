@@ -32,6 +32,7 @@ export const CheckOut = () => {
         control,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<CheckoutFormValues>({
         resolver: zodResolver(CheckoutFormSchema),
         defaultValues: {
@@ -43,6 +44,16 @@ export const CheckOut = () => {
         },
         mode: 'onBlur',
     })
+
+    const resetForm = () => {
+        reset({
+            name: '',
+            surname: '',
+            email: localStorage.getItem('email') || '',
+            address: '',
+            zip_code: '',
+        })
+    }
 
     const onSubmit = async (data: CheckoutFormValues) => {
         setErrorMessage(null)
@@ -302,7 +313,10 @@ export const CheckOut = () => {
                         )}
                     </div>
                     {showCongrats && (
-                        <CongratsModal onClose={() => setShowCongrats(false)} />
+                        <CongratsModal
+                            onClose={() => setShowCongrats(false)}
+                            onFinish={resetForm}
+                        />
                     )}
                 </div>
             </div>
